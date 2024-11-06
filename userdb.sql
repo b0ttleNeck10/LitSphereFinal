@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2024 at 03:56 PM
+-- Generation Time: Nov 06, 2024 at 04:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -102,7 +102,8 @@ INSERT INTO `users` (`UserID`, `FirstName`, `LastName`, `Email`, `PasswordHash`,
 (2, 'Dex', 'Lauron', 'dexterlauron1@gmail.com', '$2y$10$RHevkFJT58kK9DQu6ghjX.sasPlNS80LwGgWa5LHspBc6OFv.e7RC', 0, '2024-11-05 07:46:19', NULL, NULL),
 (3, 'Cristian', 'Torrejos', 'cristian@gmail.com', '$2y$10$npyP.ZBpbV3HcPEBfvrhkeHe7MyjNI1.vgEaOQVnFo0uFOVjhmw1S', 0, '2024-11-02 13:59:23', NULL, NULL),
 (4, 'John', 'Doe', 'Dem@gmail.com', '$2y$10$q/KVV0PkJFnP9/bODyHen.G37Kv11jfXpeFo6/WlBIjHYJw1ch/kq', 0, '2024-11-05 06:40:56', NULL, NULL),
-(5, 'The', 'Quick', 'brownfox@gmail.com', '$2y$10$eB.aJOeWAfDVSHhAS9zeVeCJLcAdH21X1pCD3A7IYTAsC2qCw5NGa', 0, '2024-11-05 06:49:35', NULL, NULL);
+(5, 'The', 'Quick', 'brownfox@gmail.com', '$2y$10$eB.aJOeWAfDVSHhAS9zeVeCJLcAdH21X1pCD3A7IYTAsC2qCw5NGa', 0, '2024-11-05 06:49:35', NULL, NULL),
+(7, 'Admin', 'Librarian', 'admin@example.com', '$2y$10$oh7yVQu49ebsxmsu4FnhG.euvgotg4sj8kW0kRqWtVyy8yyjf96bC', 0, '2024-11-06 15:19:03', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -163,7 +164,7 @@ ALTER TABLE `borrowinghistory`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
