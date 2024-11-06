@@ -1,0 +1,247 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #E3F2FD;
+}
+
+.background {
+    background-color: rgba(227,242,253,0.3);
+    filter: blur(3px);
+    margin: 0;
+}
+
+.parent {
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 75%;
+    min-height: 100vh;
+}
+
+#logo {
+    margin-right: auto;
+    /* border: 1px solid black; */
+}
+
+.user_auth_container {
+    display: flex;
+    margin-bottom: 2rem;
+    /* border: 1px solid black; */
+}
+
+.user_auth {
+    width: 30%;
+    display: flex;
+    padding: 10px 10px 10px 10px;
+    text-align: center;
+    /* border: 1px solid black; */
+    align-items: center;
+}
+
+.user_auth a {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    padding: .8rem 1rem .8rem 1rem;
+    font-size: larger;
+}
+
+.login {
+    font-family: 'Poppins';
+    width: 100%;
+    border-radius: 15px;
+    margin-right: 1.5rem;
+    background-color: white;
+    
+}
+
+.sign_up {
+    font-family: 'Poppins';
+    color: white;
+    width: 100%;
+    border-radius: 15px;
+    background-image: linear-gradient(to right, #17A4C0, #053B9F);
+}
+
+.slogan_container {
+    /* border: 1px solid black; */
+    background-image: linear-gradient(to right, #17A4C0, #053B9F);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;    
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 50px;
+    height: 70vh;
+}
+
+#slogan h3 {
+    font-family: 'Poppins';
+    background: transparent;
+    font-size: 3.5rem;
+    line-height: 90px;
+    font-weight: 900;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid;
+    border-top-color: #5185e641;
+    text-align: center;
+}
+
+.iContainer {
+    margin-bottom: 30px;
+}
+
+/* Login */
+
+.login_container {
+    display: none;
+    position: absolute;
+    top: 50%;  /* position the top  edge of the element at the middle of the parent */
+    left: 50%; /* position the left edge of the element at the middle of the parent */
+    transform: translate(-50%, -50%);
+    justify-content: center;
+    background-color: #e3f2fd;
+    border-radius: 30px;
+    box-shadow: 4px 4px 20px #000000;
+}
+
+.signup_container {
+    display: none;
+    position: absolute;
+    top: 50%;  /* position the top  edge of the element at the middle of the parent */
+    left: 50%; /* position the left edge of the element at the middle of the parent */
+    transform: translate(-50%, -50%);
+    justify-content: center;
+    background-color: #e3f2fd;
+    border-radius: 30px;
+    box-shadow: 4px 4px 20px #000000;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid black; */
+    font-family: 'Poppins';
+    font-size: 1rem;
+    padding: 2rem 3rem 2rem 3rem;
+    height: 550px;
+    flex-grow: 1;
+    position: relative;
+}
+
+form h2 {
+    font-family: 'Poppins';
+    text-align: center;
+    font-size: 3rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form a {
+    color: black;
+    display: block;
+    font-size: .8rem;
+    margin:auto;
+    margin-top: 0px;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* LOGIN CSS */
+
+#login {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+form #username{
+    margin-bottom: 1rem;
+    padding: 7px;
+    font-size: 1rem;
+    width: 300px;
+    border: none;
+}
+
+form #password {
+    padding: 7px 30px 7px 7px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    width: 300px;
+    border: none;
+}
+
+#loginBtn {
+    margin-top: 2rem;
+}
+
+#login_error {
+    color: red;
+    width: 300px;
+    margin: 0px;
+    font-size: .8rem;
+}
+
+.invalid_field {
+    border: 1px solid red !important;
+} 
+
+/* ----------- */
+
+/* SIGN UP CSS */
+
+form #first_name, #last_name, #user, #pass, #conf_pass, #login_email, #signup_email{
+    padding: 7px;
+    margin-bottom: .5rem;
+    font-size: 1rem;
+    width: 300px;
+    border: none;
+}
+
+/* ----------- */
+
+.fa-xmark {
+    position: absolute;
+    cursor: pointer;
+    left: 715px;
+    top: 18px;
+}
+
+.fa-eye, .fa-eye-slash {
+    top: 268px;
+    position: absolute;
+    right: 54px;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+}
+
+
+button {
+    display: block;
+    background-image: linear-gradient(to right, #17A4C0, #053B9F);
+    border: none;
+    margin: auto;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.2rem;
+    padding: 7px 30px 7px 30px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+#bookimg img {
+    flex-grow: 1;
+    height: 100%;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
