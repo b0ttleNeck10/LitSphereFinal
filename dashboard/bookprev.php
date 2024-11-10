@@ -54,7 +54,7 @@
                         <a href="profile.php">
                             <img src="/nav_icon/Profile Icon.svg" alt="Profile">
                             <span class="nav_item">
-                                <?php 
+                                <?php
                                     if (isset($_SESSION['fname'])) {
                                         echo htmlspecialchars($_SESSION['fname']);
                                     } else {

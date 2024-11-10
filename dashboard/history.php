@@ -9,15 +9,16 @@
 
     $userID = $_SESSION['userID']; // Get the logged-in user's ID
 
-    // Fetch the books the user borrowed - ordered by the newest first
+    // Fetch the books the user borrowed that were approved - ordered by the newest first
     $historyQuery = $conn->prepare("
-        SELECT B.Title, BH.BorrowDate, BR.DueDate
+        SELECT DISTINCT B.Title, BH.BorrowDate, BR.DueDate, BR.Status
         FROM BorrowingHistory BH
         INNER JOIN Books B ON BH.BookID = B.BookID
         INNER JOIN Borrow BR ON BH.BookID = BR.BookID AND BH.UserID = BR.UserID
-        WHERE BH.UserID = ?
-        ORDER BY BH.BorrowDate DESC
+        WHERE BH.UserID = ? AND BR.Status IN ('Active', 'Returned', 'Overdue')
+        ORDER BY BH.BorrowDate DESC;
     ");
+
     $historyQuery->bind_param("i", $userID);
     $historyQuery->execute();
     $historyResult = $historyQuery->get_result();

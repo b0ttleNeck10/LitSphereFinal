@@ -12,7 +12,7 @@ body {
     flex-direction: row;
     margin: auto;
     justify-content: center;
-    width: 90%;
+    width: 100%;
 }
 
 /* Navigation Bar */
@@ -390,6 +390,13 @@ input::placeholder {
 
 /* Request Book */
 
+.request {
+    backdrop-filter: blur(5px);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
 .req_wrapper {
     position: absolute;
     top: 50%;  /* position the top  edge of the element at the middle of the parent */
@@ -535,9 +542,9 @@ form button {
     border: 0px solid #d1e4ff; /* Light blue border */
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);    
     width: 60px;
-    height: 217px;
+    height: 215px;
     cursor: pointer;
-    z-index: 1;
+    /* z-index: 1; */
     transition: background-color 0.3s ease;
 }
 
@@ -600,11 +607,132 @@ form button {
     transition-duration: .1s;
 }
 
+.return_wrapper {
+    display: none;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid black; */
+    height: 100%;
+    width: 100%;
+}
+
+.table_container {
+    font-family: 'Poppins';
+    position: relative;
+    box-shadow: 2px 2px 15px;
+    background-color: #e3f2fd;
+    border-radius: 20px;
+    height: 85%;
+    width: 50%;
+}
+
+.table_content {
+    height: 80%;
+    overflow-y: auto;
+    margin: 30px;
+    margin-bottom: 0;
+}
+
+.table_content::-webkit-scrollbar{
+    width: 5px;
+}
+
+.table_content::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.table_content::-webkit-scrollbar-thumb {
+    background-color: #053B9F;
+}
+
+table {
+    font-family: 'Poppins';
+    border-collapse: collapse;
+}
+
+th {
+    font-size: 1.2rem;
+}
+
+tr {
+    overflow-y: auto;
+    margin: 0;
+}
+
+td, th {
+    padding: 8px;
+    text-align: left;
+    /* border: 1px solid black; */
+}
+
+.clearBtn #returnButton {
+    position: relative;
+    bottom: 0;
+    left: 30px;
+    font-family: 'Poppins';
+    margin-top: 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-image: linear-gradient(to right, #17A4C0, #053B9F);
+    color: white;
+    cursor: pointer;
+    padding: 8px 15px 8px 15px;
+    transition: 0.5s;
+}
+
+#closeReturn {
+    position: absolute;
+    right: 129px;
+    bottom: 23px;
+    font-family: 'Poppins';
+    z-index: 1;
+    background-image: linear-gradient(to right, #17A4C0, #053B9F);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+#returnBtn {
+    position: absolute;
+    right: 34px;
+    bottom: 23px;
+    font-family: 'Poppins';
+    z-index: 1;
+    background-image: linear-gradient(to right, #17A4C0, #053B9F);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+#returnButton {
+    position: absolute;
+    bottom: 18px;
+    font-family: 'Poppins';
+    margin-top: 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-image: linear-gradient(to right, #17A4C0, #053B9F);
+    color: white;
+    cursor: pointer;
+    padding: 8px 25px;
+    transition: 0.5s;
+}
+
 /* Suggestions */
+
+#bookSuggestion {
+    margin-top: 1rem !important   ;
+}
 
 .suggestion h4 {
     font-family: 'Poppins';
     font-size: 1.5rem;
+    margin-bottom: 0;
 }
 
 /* History */
@@ -654,7 +782,13 @@ form button {
     color: white;
     cursor: pointer;
     padding: 8px 15px 8px 15px;
+    transition: 0.5s;
 }
+
+.clearBtn #clearHistoryBtn:hover {
+    background-image: linear-gradient(to right, #16869c, #07358a);
+}
+
 
 /* Profile */
 
@@ -726,6 +860,19 @@ form button {
     padding: 8px 15px 8px 15px;
 }
 
+#saveDetails {
+    margin-left: 1.4rem;
+    font-family: 'Poppins';
+    margin-top: .5rem !important;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-image: linear-gradient(to right, #17A4C0, #053B9F);
+    color: white;
+    cursor: pointer;
+    padding: 8px 15px 8px 15px;
+}
+
 .saveChangesBtn {
     position: absolute;
     bottom: 20px;
@@ -743,6 +890,11 @@ form #logoutBtn {
     color: white;
     cursor: pointer;
     padding: 8px 15px 8px 15px;
+    transition: 0.5s;
+}
+
+form #logoutBtn:hover {
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 #multiBtn {
@@ -785,30 +937,46 @@ Notifications */
     background-color: white;
     padding-left: 15px;
     padding-right: 15px;
+    margin-bottom: 10px;
 }
 
 .notif button {
     font-family: 'Poppins';
-    height: 30px;
     border-radius: 5px;
     cursor: pointer;
+    margin: 0 !important;
+    font-size: 1rem !important;
 }
 
-.approveBtn {
+.btnContainer form {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+form .approveBtn {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
     color: white;
     background-image: linear-gradient(to right, #17A4C0, #053B9F);
-    margin-right: 3px;
+    margin-right: 8px !important;
     border: none;
     padding: 5px 10px;
 }
 
-.denyBtn {
+form .denyBtn {
+    display: flex;
+    align-items: center;
     background: linear-gradient(white, white) padding-box,
     linear-gradient(to right, #FF9431, #FF0000) border-box;
     border-width: 2px;
     border-style: solid;
     border-color: transparent;
-    border-radius: 10px;
+    border-radius: 8px;
+    padding: 4px 10px;
     color: red;
 }
 
