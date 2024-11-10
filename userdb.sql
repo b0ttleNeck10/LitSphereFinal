@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2024 at 04:19 PM
+-- Generation Time: Nov 09, 2024 at 10:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,8 +42,8 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`BookID`, `Title`, `AuthorName`, `Genre`, `CoverImageURL`, `Description`, `Status`) VALUES
-(1, 'It Ends With Us', 'Dexter Lauron', 'Romance', '/book_img/image2.svg', 'Lily hasn’t always had it easy, but that’s never stopped her from working hard for the life she wants. She’s come a long way from the small town in Maine where she grew up — she graduated from college, moved to Boston, and started her own business. So when she feels a spark with a gorgeous neurosurgeon named Ryle Kincaid, everything in Lily’s life suddenly seems almost too good to be true. Ryle is assertive, stubborn, maybe even a little arrogant. He’s also sensitive, brilliant, and has a total soft spot for Lily.', 'Available'),
-(2, 'Harry Potter and The Cursed Child', 'Cristian Torrejos', 'Mystery', '/book_img/image1.svg', 'Harry Potter and the Cursed Child (2016) is a two-part play written by Jack Thorne, based on an original story collaboratively created by J. K. Rowling, John Tiffany, and Thorne himself. Set in the universe of the Harry Potter books penned by J. K. Rowling, the play follows events occurring 19 years after the epilogue of the seventh book, The Deathly Hallows (2007); the story revolves around Albus Potter, the second son and middle child of Harry Potter, and Albus’s relationship with his famous father. Thorne is an award-winning English screenwriter and playwright. His portfolio includes the television adaptation of the His Dark Materials series, the first book of which is The Golden Compass (1995); the screenplay of the movie Wonder; a new adaptation of A Christmas Carol by Charles Dickens for Broadway; and the creation of the television drama National Treasure, the latter of which won him a BAFTA award. Harry Potter and the Cursed Child is among his award-winning works; at the 2017 Laurence Olivier Awards, the London production received a record-breaking level of nominations, of which it took home a record-breaking nine awards, including Best New Play. The Broadway production, too, received similar honors at the 2018 Tony Awards, taking home six awards, including Best Play.', 'Available');
+(1, 'It Ends With Us', 'Dexter Lauron', 'Romance', '../book_img/image2.svg', 'Lily hasn’t always had it easy, but that’s never stopped her from working hard for the life she wants. She’s come a long way from the small town in Maine where she grew up — she graduated from college, moved to Boston, and started her own business. So when she feels a spark with a gorgeous neurosurgeon named Ryle Kincaid, everything in Lily’s life suddenly seems almost too good to be true. Ryle is assertive, stubborn, maybe even a little arrogant. He’s also sensitive, brilliant, and has a total soft spot for Lily.', 'Available'),
+(2, 'Harry Potter and The Cursed Child', 'Cristian Torrejos', 'Mystery', '../book_img/image1.svg', 'Harry Potter and the Cursed Child (2016) is a two-part play written by Jack Thorne, based on an original story collaboratively created by J. K. Rowling, John Tiffany, and Thorne himself. Set in the universe of the Harry Potter books penned by J. K. Rowling, the play follows events occurring 19 years after the epilogue of the seventh book, The Deathly Hallows (2007); the story revolves around Albus Potter, the second son and middle child of Harry Potter, and Albus’s relationship with his famous father. Thorne is an award-winning English screenwriter and playwright. His portfolio includes the television adaptation of the His Dark Materials series, the first book of which is The Golden Compass (1995); the screenplay of the movie Wonder; a new adaptation of A Christmas Carol by Charles Dickens for Broadway; and the creation of the television drama National Treasure, the latter of which won him a BAFTA award. Harry Potter and the Cursed Child is among his award-winning works; at the 2017 Laurence Olivier Awards, the London production received a record-breaking level of nominations, of which it took home a record-breaking nine awards, including Best New Play. The Broadway production, too, received similar honors at the 2018 Tony Awards, taking home six awards, including Best Play.', 'Available');
 
 -- --------------------------------------------------------
 
@@ -58,9 +58,20 @@ CREATE TABLE `borrow` (
   `BorrowDate` date NOT NULL,
   `DueDate` date NOT NULL,
   `ReturnDate` date DEFAULT NULL,
-  `Status` enum('Active','Returned','Overdue') DEFAULT 'Active',
-  `Purpose` enum('In House Reading','Referencing') DEFAULT 'In House Reading'
+  `Status` enum('Requested','Active','Returned','Overdue','Denied') DEFAULT 'Requested'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `borrow`
+--
+
+INSERT INTO `borrow` (`BorrowID`, `BookID`, `UserID`, `BorrowDate`, `DueDate`, `ReturnDate`, `Status`) VALUES
+(14, 1, 2, '2024-11-08', '2024-11-15', NULL, 'Returned'),
+(15, 2, 2, '2024-11-08', '2024-11-11', NULL, 'Returned'),
+(16, 1, 2, '2024-11-08', '2024-11-09', NULL, 'Returned'),
+(17, 1, 2, '2024-11-09', '2024-11-14', NULL, 'Returned'),
+(18, 1, 2, '2024-11-09', '2024-11-13', NULL, 'Returned'),
+(19, 1, 2, '2024-11-09', '2024-11-14', NULL, 'Returned');
 
 -- --------------------------------------------------------
 
@@ -75,6 +86,14 @@ CREATE TABLE `borrowinghistory` (
   `BorrowDate` date NOT NULL,
   `ReturnDate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `borrowinghistory`
+--
+
+INSERT INTO `borrowinghistory` (`HistoryID`, `UserID`, `BookID`, `BorrowDate`, `ReturnDate`) VALUES
+(30, 2, 1, '2024-11-09', NULL),
+(31, 2, 1, '2024-11-09', NULL);
 
 -- --------------------------------------------------------
 
@@ -152,13 +171,13 @@ ALTER TABLE `books`
 -- AUTO_INCREMENT for table `borrow`
 --
 ALTER TABLE `borrow`
-  MODIFY `BorrowID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `BorrowID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `borrowinghistory`
 --
 ALTER TABLE `borrowinghistory`
-  MODIFY `HistoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `HistoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `users`
