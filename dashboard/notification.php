@@ -49,12 +49,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body>
-        <div class="parent">
+        <div class="parent"> 
             <nav class="nav_container">
                 <ul>
                     <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 200px; height: 90px; margin-bottom: 25px; margin-top: 25px;">
                     <li>
-                        <a href="notification.html" class="active">
+                        <a href="notification.php" class="active">
                             <img src="../nav_icon/Notification Icon.svg" alt="Home">
                             <span class="nav_item">Notifications</span> 
                         </a>                        

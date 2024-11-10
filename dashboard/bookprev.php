@@ -98,7 +98,7 @@
                         <div class="book_container" id="book_container">
                             <?php while ($book = $booksResult->fetch_assoc()): ?>
                                 <div class="book" onclick="openBookDetails('<?php echo htmlspecialchars($book['CoverImageURL']); ?>', '<?php echo htmlspecialchars($book['Title']); ?>', '<?php echo htmlspecialchars($book['AuthorName']); ?>', '<?php echo htmlspecialchars($book['Description']); ?>', '<?php echo htmlspecialchars($book['Genre']); ?>', '<?php echo $book['BookID']; ?>')">
-                                    <img src="<?php echo htmlspecialchars($book['CoverImageURL']); ?>" alt="Book Cover">
+                                    <img class="bookbook" src="<?php echo htmlspecialchars($book['CoverImageURL']); ?>" alt="Book Cover" style="height: 205px; width: 139px;">
                                     <p id="button1">Read Now!</p>
                                 </div>
                             <?php endwhile; ?>                     
