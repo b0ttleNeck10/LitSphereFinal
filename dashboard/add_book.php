@@ -2,7 +2,7 @@
     session_start();
     include('../connection.php');
 
-    // Check if form is submitted
+    // Check if form is submitted via AJAX (with POST request)
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Retrieve form data
         $title = $_POST['bTitle'];
@@ -32,15 +32,16 @@
                         VALUES ('$title', '$author', '$genre', '$coverImageURL', '$description', 'Available')";
 
                 if ($conn->query($sql) === TRUE) {
-                    echo "New record created successfully";
+                    // Return a success message with the book details
+                    echo json_encode(['status' => 'success', 'message' => 'New book added successfully']);
                 } else {
-                    echo "Error: " . $sql . "<br>" . $conn->error;
+                    echo json_encode(['status' => 'error', 'message' => 'Error: ' . $conn->error]);
                 }
             } else {
-                echo "Error uploading file.";
+                echo json_encode(['status' => 'error', 'message' => 'Error uploading file.']);
             }
         } else {
-            echo "No image uploaded or file upload error.";
+            echo json_encode(['status' => 'error', 'message' => 'No image uploaded or file upload error.']);
         }
     }
 

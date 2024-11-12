@@ -1,3 +1,21 @@
+<?php
+    session_start();
+    include('../connection.php');
+
+    // Ensure the user is logged in (if needed)
+    if (!isset($_SESSION['fname'])) {
+        echo "You must be logged in to view the readers.";
+        exit();
+    }
+
+    // Fetch all users from the Users table
+    $sql = "SELECT * FROM Users";
+    $result = mysqli_query($conn, $sql);
+
+    // Close the connection
+    mysqli_close($conn);
+?>
+
 <!doctype HTML>
 
 <html>
@@ -47,15 +65,19 @@
                         <h3>Readers</h3>
                     </div>
                     <div class="reader_wrapper">
-                        <div class="reader_container">
-                            <div class="suspended">
-                                <p>Suspended</p>
+                        <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                            <div class="reader_container">
+                                <?php if ($row['IsSuspended']): ?>
+                                    <div class="suspended">
+                                        <p>Suspended</p>
+                                    </div>
+                                <?php endif; ?>
+                                <a href="managereaderacc.php?userid=<?php echo $row['UserID']; ?>">
+                                    <img src="../reader_img/userImg.png" alt="User Profile Picture">
+                                    <p><?php echo $row['FirstName'] . ' ' . $row['LastName']; ?></p>
+                                </a>
                             </div>
-                            <a href="#">
-                                <img src="../reader_img/1.jfif" alt="">
-                                <p>Hape Bertday</p>
-                            </a>
-                        </div>                                          
+                        <?php endwhile; ?>                                      
                     </div>
                 </div>
                 <footer>

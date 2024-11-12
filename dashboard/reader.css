@@ -1001,6 +1001,15 @@ form .denyBtn {
     /* height: 250px; */
     text-align: center;
     background-color: white;
+    animation: fadeAndScale 1s cubic-bezier(.39,-1.05,.58,1.95);
+    transform-origin: center bottom;
+    animation-delay: -0.5s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.reader_container:hover {
+    box-shadow: 4px 4px 5px #9099a0;
+    transform: translateY(-3px);
 }
 
 .reader_container img {
@@ -1159,6 +1168,8 @@ form .denyBtn {
 }
 
 .accountinf img {
+    height: 236px;
+    width: 236px;
     border-radius: 15px;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -1198,15 +1209,23 @@ form .denyBtn {
 }
 
 .suspend-btn {
-    background: linear-gradient(to right, #FF9431, #FF0000);
-    color: white;
-    border: none;
-    padding: 10px 20px;
+    background: linear-gradient(white, white) padding-box,
+    linear-gradient(to right, #FF9431, #FF0000) border-box;
+    color: red;
+    border-width: 2px;
+    border-style: solid;
+    border-color: transparent;
+    border-radius: 8px;
+    padding: 8px 15px;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
-    border-radius: 13px;
     cursor: pointer;
     margin-top: 3rem;
+}
+
+.suspend-btn:hover {
+    background: linear-gradient(to right, #FF9431, #FF0000) border-box;
+    color: white;
 }
 
 .borrowhist h3{
@@ -1222,15 +1241,18 @@ form .denyBtn {
 }
 
 .hist h6 {
-    background-color: #AEDDFF;
+    background-color: #CCE9FF;
     font-family: 'Poppins';
     font-size: 1rem;
     font-weight: lighter;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 5px;
+    padding: 10px;
     margin: 0.8rem;
     margin-left: 0px;
+}
+
+.hist p {
+    font-family: 'Poppins';
+    font-size: 1rem;
 }
 
 /* pop up suspend */
@@ -1386,7 +1408,31 @@ form .denyBtn {
     margin-bottom: 1rem;
     font-family: 'Poppins';
     overflow-y: auto;
-    height: 60%;
+    height: 75vh;
+}
+
+.inventory_container::-webkit-scrollbar{
+    width: 5px;
+}
+
+.inventory_container::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.inventory_container::-webkit-scrollbar-thumb {
+    background-color: #053B9F;
+}
+
+@keyframes stagger {
+    from {
+        opacity: 0;
+        transform: translateY(20px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }    
 }
 
 .content {
@@ -1394,12 +1440,15 @@ form .denyBtn {
     flex-direction: row;
     background: white;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
+    opacity: 0;
+    animation: stagger ease-in 0.5s forwards 1;
+    animation-delay: 0s;
 }
 
 .content h4 {
     font-family: 'Poppins';
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin: 0;
 }
 
@@ -1701,13 +1750,13 @@ input::placeholder {
     background-color: #053B9F;
     width: 100%;
     padding: 0.4rem;
-    font-size: 1rem;
-    
+    font-size: 1rem;   
 }
 
 .genre-select option {
     color: #000;
     background-color: #C7E6FD;
+    overflow: scroll;
 }
 
 .selectcolor {
@@ -1830,4 +1879,81 @@ input::placeholder {
     padding: 8px 15px;
     border-radius: 8px;
     cursor: pointer;
+}
+
+/* Delete CSS */
+
+.popupDeleteWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    display: flex;
+    visibility: hidden; 
+    justify-content: center;
+    align-items: center;
+}
+
+.deleteContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #C7E6FD;
+    border-radius: 20px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.deleteContainer p {
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.decisionBtn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#yesBtn {
+    font-size: 1rem;
+    font-family: 'Poppins';
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    color: white;
+    background-image: linear-gradient(to right, #17A4C0, #053B9F);
+    margin-right: 8px !important;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 20px;
+    cursor: pointer;
+}
+
+#noBtn {
+    font-size: 1rem;
+    font-family: 'Poppins';
+    display: flex;
+    align-items: center;
+    background: linear-gradient(white, white) padding-box,
+    linear-gradient(to right, #FF9431, #FF0000) border-box;
+    border-width: 2px;
+    border-style: solid;
+    border-color: transparent;
+    border-radius: 8px;
+    padding: 4px 20px;
+    color: red;
+    cursor: pointer;
+}
+
+#noBtn:hover {
+    background: linear-gradient(to right, #FF9431, #FF0000) border-box;;
+    color: white;
 }

@@ -1,3 +1,95 @@
+<?php
+    session_start();
+    include('../connection.php');
+
+    // Check if the user is logged in
+    if (!isset($_SESSION['fname'])) {
+        echo "You must be logged in to view the reader's account.";
+        exit();
+    }
+
+    // Get the user ID from the query string
+    if (isset($_GET['userid'])) {
+        $userID = $_GET['userid'];
+
+        // Fetch user details from the database
+        $sql = "SELECT * FROM Users WHERE UserID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $userID); // Bind the user ID as an integer
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            // Fetch the user's details
+            $user = $result->fetch_assoc();
+        } else {
+            echo "User not found.";
+            exit();
+        }
+        
+        // Close the statement
+        $stmt->close();
+
+        // Fetch borrowing history for this user
+        $borrowHistorySQL = "
+            SELECT bh.BookID, bo.Title, bh.BorrowDate, bh.ReturnDate, DATEDIFF(COALESCE(bh.ReturnDate, CURDATE()), bh.BorrowDate) AS BorrowDuration
+            FROM BorrowingHistory bh
+            LEFT JOIN Books bo ON bh.BookID = bo.BookID
+            WHERE bh.UserID = ?
+
+            UNION
+
+            SELECT br.BookID, bo.Title, br.BorrowDate AS BorrowDate, br.ReturnDate, DATEDIFF(COALESCE(br.ReturnDate, br.DueDate), br.BorrowDate) AS BorrowDuration
+            FROM Borrow br
+            LEFT JOIN Books bo ON br.BookID = bo.BookID
+            WHERE br.UserID = ?
+            AND br.Status != 'Returned'
+        ";
+
+        $stmt = $conn->prepare($borrowHistorySQL);
+        $stmt->bind_param("ii", $userID, $userID); // Bind the user ID for both parts of the query
+        $stmt->execute();
+        $borrowResult = $stmt->get_result();
+        
+        $borrowHistory = [];
+        while ($row = $borrowResult->fetch_assoc()) {
+            $borrowHistory[] = $row;
+        }
+
+        // Close the statement
+        $stmt->close();
+    } else {
+        echo "No user selected.";
+        exit();
+    }
+
+    // Query to count the number of books in the user's library
+    $countBooksSQL = "
+        SELECT COUNT(*) AS bookCount
+        FROM BorrowingHistory bh
+        WHERE bh.UserID = ? AND bh.ReturnDate IS NULL
+        UNION
+        SELECT COUNT(*) AS bookCount
+        FROM Borrow br
+        WHERE br.UserID = ? AND br.Status != 'Returned'
+    ";
+
+    $stmt = $conn->prepare($countBooksSQL);
+    $stmt->bind_param("ii", $userID, $userID); // Bind the user ID for both parts of the query
+    $stmt->execute();
+    $countResult = $stmt->get_result();
+    $bookCount = 0;
+    if ($countResult->num_rows > 0) {
+        $countRow = $countResult->fetch_assoc();
+        $bookCount = $countRow['bookCount']; // Get the count of borrowed books
+    }
+
+    $stmt->close();
+
+    // Close the connection
+    mysqli_close($conn);
+?>
+
 <!doctype HTML>
 
 <html>
@@ -50,21 +142,21 @@
                     <!--manage account page-->               
                     <div class="account_page">
                         <div class="accountinf">
-                            <img src="reader_img/1.jfif" alt="">                    
+                            <img src="../reader_img/userImg.png" alt="">                    
                         </div>       
                         <div class="account_deets">
                             <div class="accdeets">
                                 <div class="account_row">
-                                    <h6 class="dbold">Name:</h6><h6 class="dlight">Hape Bertday</h6>
+                                    <h6 class="dbold">Name:</h6><h6 class="dlight"><?php echo $user['FirstName'] . ' ' . $user['LastName']; ?></h6>
                                 </div>
                                 <div class="account_row">
-                                    <h6 class="dbold">Email:</h6><h6 class="dlight">hapehbertday@gmail.com</h6>
+                                    <h6 class="dbold">Email:</h6><h6 class="dlight"><?php echo $user['Email']; ?></h6>
                                 </div>
                                 <div class="account_row">
-                                    <h6 class="dbold">Phone:</h6><h6 class="dlight">12345678901</h6>
+                                    <h6 class="dbold">Status:</h6><h6 class="dlight"><?php echo $user['IsSuspended'] ? 'Suspended' : 'Active'; ?></h6>
                                 </div>
                                 <div class="account_row">
-                                    <h6 class="dbold">Library Books:</h6><h6 class="dlight">hape Bertday</h6>
+                                    <h6 class="dbold">Library Books:</h6><h6 class="dlight"><?php echo $bookCount; ?></h6>
                                 </div>
                                 <button class="suspend-btn" id="suspendclick">Suspend Account</button>
                             </div>
@@ -74,9 +166,13 @@
                         <h3>Borrow History</h3>
                     </div>
                     <div class="hist">
-                        <h6>Hapeh added the book ‘Don’t Look Back’ in his Library. </h6>
-                        <h6>Hapeh added the book ‘It Ends With Us’ in his Library. </h6>
-                        <h6>Hapeh added the book ‘Fantastic Beast: The Crimes of Gridelwald’ in his Library. </h6>
+                        <?php if (empty($borrowHistory)): ?>
+                            <p>This user hasn't added any book in his library yet.</p>
+                        <?php else: ?>
+                            <?php foreach ($borrowHistory as $history): ?>
+                                <h6><?php echo $user['FirstName'] . ' ' . $user['LastName']; ?> added the book ‘<?php echo $history['Title']; ?>’ in his library for <?php echo $history['BorrowDuration']; ?> days.</h6>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <!-- manage account page END -->
