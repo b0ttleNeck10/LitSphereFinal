@@ -18,7 +18,7 @@
         <div class="parent">
             <div class="user_auth_container">
                 <div id="logo">
-                    <img src="Logo and Name.svg" alt="LitSphere Logo" style="height: 120px; width: 400px;">
+                    <img src="Logo and Name.svg" alt="LitSphere Logo" style="height: 88px; width: 396px;">
                 </div>
                 <div class="user_auth">
                     <div class="login">
