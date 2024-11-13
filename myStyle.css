@@ -109,28 +109,45 @@ footer {
 /* Login */
 
 .login_container {
-    display: none;
     position: absolute;
-    top: 50%;  /* position the top  edge of the element at the middle of the parent */
-    left: 50%; /* position the left edge of the element at the middle of the parent */
+    top: 50%;
+    left: 50%; 
     transform: translate(-50%, -50%);
     justify-content: center;
     background-color: #e3f2fd;
     border-radius: 30px;
     box-shadow: 4px 4px 20px #000000;
-    transition: 0.5s;
+    opacity: 0;  /* Initially invisible */
+    visibility: hidden;  /* Make it non-interactive */
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s;  /* Visibility change delayed by 0.5s */
 }
 
 .signup_container {
-    display: none;
     position: absolute;
-    top: 50%;  /* position the top  edge of the element at the middle of the parent */
-    left: 50%; /* position the left edge of the element at the middle of the parent */
+    top: 50%;
+    left: 50%; 
     transform: translate(-50%, -50%);
     justify-content: center;
     background-color: #e3f2fd;
     border-radius: 30px;
     box-shadow: 4px 4px 20px #000000;
+    opacity: 0;  /* Initially invisible */
+    visibility: hidden;  /* Make it non-interactive */
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s;  /* Visibility change delayed by 0.5s */
+}
+
+.login_container.show, .signup_container.show {
+    opacity: 1;
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    width: 746px;
+    height: 584px;
+    background-color: #e3f2fd;
+    visibility: visible;  /* Make it interactive */
+    transition: opacity 0.5s ease, transform 0.5s ease; 
 }
 
 form {
@@ -225,7 +242,7 @@ form #first_name, #last_name, #user, #pass, #conf_pass, #login_email, #signup_em
 }
 
 .fa-eye, .fa-eye-slash {
-    top: 268px;
+    top: 266px;
     position: absolute;
     right: 54px;
     cursor: pointer;

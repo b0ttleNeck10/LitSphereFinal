@@ -91,26 +91,29 @@
             </div>        
         </footer>
         <script>
+            // Add animation on login button click
             const loginBtn = document.querySelector('.login');
-
             loginBtn.addEventListener('click', function() {
-                document.querySelector('.login_container').style.display = 'flex';
+                document.querySelector('.login_container').classList.add('show');
+                document.querySelector('.signup_container').classList.remove('show');  // Hide the signup form if it's open
             });
 
-            const signupBtn = document.querySelector('.sign_up')
-
+            // Add animation on signup button click
+            const signupBtn = document.querySelector('.sign_up');
             signupBtn.addEventListener('click', function() {
-                document.querySelector('.signup_container').style.display = 'flex';
+                document.querySelector('.signup_container').classList.add('show');
+                document.querySelector('.login_container').classList.remove('show');  // Hide the login form if it's open
             });
 
+            // Close the forms when the close button is clicked
             const closeButtons = document.querySelectorAll('.fa-xmark');
-
             closeButtons.forEach(function(closeButton) {
                 closeButton.addEventListener('click', function() {
-                    document.querySelector('.login_container').style.display = 'none';
-                    document.querySelector('.signup_container').style.display = 'none';
+                    document.querySelector('.login_container').classList.remove('show');
+                    document.querySelector('.signup_container').classList.remove('show');
                 });
             });
+
 
             // Toggle password visibility
             const eyeIcon = document.querySelector('.fa-eye-slash');
@@ -144,7 +147,13 @@
                         console.log(response);  // Log the response to check the returned JSON
                         if (response.status === 'success') {
                             alert(response.message);  // Show success alert
-                            $('#signupForm')[0].reset();  // Reset form fields
+
+                            // Reset form fields
+                            $('#signupForm')[0].reset();  
+
+                            // Hide the signup form and show the login form
+                            document.querySelector('.signup_container').classList.remove('show');
+                            document.querySelector('.login_container').classList.add('show');
                         } else {
                             alert(response.message);  // Show error alert with the message
                         }
