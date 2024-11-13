@@ -239,6 +239,12 @@ input::placeholder {
     font-size: 1rem;
 }
 
+.categoryName {
+    font-family: 'Poppins';
+    margin-top: 1rem;
+    margin-bottom: 0px;
+}
+
 /* Book */
 
 @keyframes fadeAndScale {
@@ -336,6 +342,14 @@ input::placeholder {
     font-family: 'Poppins';
     font-size: 2.3rem;
     margin: 0;
+}
+
+.current_page a {
+    color: black !important;
+}
+
+.current_page .fa-chevron-left {
+    margin-right: 20px;
 }
 
 .req_book {

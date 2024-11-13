@@ -136,18 +136,19 @@
                         </div>
                     </div>
                     <div class="categories">
-                        <a href="#"><p>Action</p></a>
-                        <a href="#"><p>Adventure</p></a>
-                        <a href="#"><p>Comedy</p></a>
-                        <a href="#"><p>Crime</p></a>
-                        <a href="#"><p>Drama</p></a>
-                        <a href="#"><p>Fantasy</p></a>
-                        <a href="#"><p>Historical</p></a>
-                        <a href="#"><p>Horror</p></a>
-                        <a href="#"><p>Romance</p></a>
-                        <a href="#"><p>Science Fiction</p></a>
-                        <a href="#"><p>Thriller</p></a>
+                        <a href="#" onclick="filterByCategory('Action')"><p>Action</p></a>
+                        <a href="#" onclick="filterByCategory('Adventure')"><p>Adventure</p></a>
+                        <a href="#" onclick="filterByCategory('Comedy')"><p>Comedy</p></a>
+                        <a href="#" onclick="filterByCategory('Crime')"><p>Crime</p></a>
+                        <a href="#" onclick="filterByCategory('Drama')"><p>Drama</p></a>
+                        <a href="#" onclick="filterByCategory('Fantasy')"><p>Fantasy</p></a>
+                        <a href="#" onclick="filterByCategory('Historical')"><p>Historical</p></a>
+                        <a href="#" onclick="filterByCategory('Horror')"><p>Horror</p></a>
+                        <a href="#" onclick="filterByCategory('Romance')"><p>Romance</p></a>
+                        <a href="#" onclick="filterByCategory('Science Fiction')"><p>Science Fiction</p></a>
+                        <a href="#" onclick="filterByCategory('Thriller')"><p>Thriller</p></a>
                     </div>
+                    <h1 class="categoryName" style="display: none;">{the clicked category should be here}</h1>
                     <div class="book_wrapper">
                         <div class="no_book"><p>There's no book that matches your search</p></div>
                         <div class="book_container" id="book_container">
@@ -211,6 +212,9 @@
 
             // Function to perform the search when user types
             function performSearch(query) {
+                document.querySelector('.categoryName').style.display = 'none';
+                document.querySelector('.book_wrapper').style.marginTop = '2rem';
+
                 const xhr = new XMLHttpRequest();
                 xhr.open('GET', 'search_books.php?query=' + encodeURIComponent(query), true);
                 xhr.onreadystatechange = function () {
@@ -246,6 +250,36 @@
 
                         // Hide the "No books found" message if books are present
                         noBookMessage.style.display = 'none';
+                    }
+                };
+                xhr.send();
+            }
+
+            function filterByCategory(category) {
+                const categoryName = document.querySelector('.categoryName');
+                categoryName.style.display = 'flex';
+                categoryName.textContent = category;
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'fetch_books_by_category.php?category=' + encodeURIComponent(category), true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const bookContainer = document.getElementById('book_container');
+                        const noBookMessage = document.querySelector('.no_book'); // Get the no_book message div
+                        const bookWrapper = document.querySelector('.book_wrapper');
+
+                        // Update book container with the filtered books
+                        bookContainer.innerHTML = xhr.responseText;
+
+                        // Show or hide the "No books found" message
+                        if (xhr.responseText.trim() === '') {
+                            categoryName.style.display = 'none';
+                            noBookMessage.style.display = 'flex';  // Show the "No books found" message
+                        } else {
+                            categoryName.style.display = 'flex';
+                            bookWrapper.style.marginTop = '.5rem';
+                            noBookMessage.style.display = 'none';   // Hide the message if books are found
+                        }
                     }
                 };
                 xhr.send();

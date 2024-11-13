@@ -119,9 +119,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="content_wrapper">
                 <div class="content_container">         
                     <div class="current_page">
-                        <i class="fa-solid fa-chevron-left fa-2x"></i>
-                        <h3>Home/It Ends With Us</h3>
-                    </div>           
+                        <a href="javascript:void(0);" onclick="goBack()"><i class="fa-solid fa-chevron-left fa-2x"></i></a>
+                        <a href="bookprev.php" style="margin-right: 10px;"><h3>Home</h3></a><h3>/<?php echo '  ' . htmlspecialchars($book['Title']); ?></h3>
+                    </div>         
                     <div class="book_page">
                         <div class="req_book">
                             <img src="<?php echo htmlspecialchars($book['CoverImageURL']); ?>" alt="">      
@@ -212,6 +212,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Disable the request button
                 requestButton.disabled = true;
                 requestButton.textContent = "Request Sent"; // Optionally change button text
+            }
+
+            // Previous window
+            function goBack() {
+                window.history.back(); // This will go to the previous page in the browser history
             }
         </script>
     </body>

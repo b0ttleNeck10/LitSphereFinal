@@ -15,19 +15,38 @@
     $genre = $_POST['editGenre'];
     $description = $_POST['editBDesc'];
 
+    // Check if bookID exists
+    if (empty($bookID)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid book ID.']);
+        exit();
+    }
+
+    // Get the current cover image URL from the database if it exists
+    $sql = "SELECT CoverImageURL FROM Books WHERE BookID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $bookID);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($currentImageURL);
+    $stmt->fetch();
+    $stmt->close();
+
     // Handle image upload (if any)
-    $imageURL = null;
     if (isset($_FILES['editMyImg']) && $_FILES['editMyImg']['error'] == 0) {
         $uploadDir = '../book_img/';
         $imageName = basename($_FILES['editMyImg']['name']);
         $uploadFile = $uploadDir . $imageName;
 
         if (move_uploaded_file($_FILES['editMyImg']['tmp_name'], $uploadFile)) {
+            // New image uploaded, use the new file
             $imageURL = $uploadFile;
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Error uploading image.']);
             exit();
         }
+    } else {
+        // No image uploaded, use the current image URL
+        $imageURL = $currentImageURL;
     }
 
     // Update the book in the database

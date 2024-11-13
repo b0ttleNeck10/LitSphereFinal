@@ -115,13 +115,13 @@
                         </a>                        
                     </li>
                     <li>
-                        <a href="inventory.php" class="active">
+                        <a href="inventory.php">
                             <img src="../nav_icon/Library Icon.svg" alt="Library">
                             <span class="nav_item">Inventory</span>
                         </a>
                     </li>
                     <li>
-                        <a href="readers.php"> 
+                        <a href="readers.php" class="active"> 
                             <img src="../nav_icon/Reader Icon.svg" alt="History">
                             <span class="nav_item">Reader</span>
                         </a>
@@ -145,8 +145,8 @@
             <div class="content_wrapper">
                 <div class="content_container">         
                     <div class="current_page">
-                        <i class="fa-solid fa-chevron-left fa-2x"></i>
-                        <h3>Readers/Hapeh Bertday</h3>
+                        <a href="javascript:void(0);" onclick="goBack()"><i class="fa-solid fa-chevron-left fa-2x"></i></a>
+                        <a href="readers.php" style="margin-right: 10px;"><h3>Readers</h3></a><h3>/<?php echo '  ' . $user['FirstName'] . ' ' . $user['LastName']; ?></h3>
                     </div>
                     <!--manage account page-->               
                     <div class="account_page">
@@ -313,6 +313,11 @@
             document.querySelector(".suspclose").addEventListener("click", function () {
                 confirmationPopup.style.display = "none"; // Close the confirmation popup
             });
+            
+            // Previous window
+            function goBack() {
+                window.history.back(); // This will go to the previous page in the browser history
+            }
         </script>
         <!--  Pop Suspend Form  END -->
     </body>
