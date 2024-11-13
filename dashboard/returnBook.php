@@ -1,13 +1,10 @@
 <?php
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-
     session_start();
     include('../connection.php');
 
     // Check if the user is logged in
     if (!isset($_SESSION['username'])) {
-        echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
+        header("Location: ../index.php");
         exit();
     }
 

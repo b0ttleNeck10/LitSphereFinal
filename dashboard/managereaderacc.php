@@ -4,7 +4,8 @@
 
     // Check if the user is logged in
     if (!isset($_SESSION['fname'])) {
-        echo "You must be logged in to view the reader's account.";
+        $_SESSION['fname'] = $user['FirstName']; // Or however you set the session data
+        header("Location: ../index.php");
         exit();
     }
 
@@ -106,7 +107,7 @@
         <div class="parent">
             <nav class="nav_container">
                 <ul>
-                    <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 200px; height: 90px; margin-bottom: 25px; margin-top: 25px;">
+                    <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 209px; height: 65px; margin-top: 1.5rem; margin-bottom: 2rem;">
                     <li>
                         <a href="notification.php">
                             <img src="../nav_icon/Notification Icon.svg" alt="Home">
@@ -116,7 +117,7 @@
                     <li>
                         <a href="inventory.php" class="active">
                             <img src="../nav_icon/Library Icon.svg" alt="Library">
-                            <span class="nav_item">My Library</span>
+                            <span class="nav_item">Inventory</span>
                         </a>
                     </li>
                     <li>
@@ -126,9 +127,17 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="adminprofile.php">
                             <img src="../nav_icon/Profile Icon.svg" alt="Profile">
-                            <span class="nav_item">Profile</span>
+                            <span class="nav_item">
+                                <?php
+                                    if (isset($_SESSION['fname'])) {
+                                        echo htmlspecialchars($_SESSION['fname']);
+                                    } else {
+                                        echo "Guest"; // Or some default text if the session variable is not set
+                                    }
+                                ?>
+                            </span>
                         </a>
                     </li>
                 </ul>
@@ -153,7 +162,7 @@
                                     <h6 class="dbold">Email:</h6><h6 class="dlight"><?php echo $user['Email']; ?></h6>
                                 </div>
                                 <div class="account_row">
-                                    <h6 class="dbold">Status:</h6><h6 class="dlight"><?php echo $user['IsSuspended'] ? 'Suspended' : 'Active'; ?></h6>
+                                    <h6 class="dbold">Status:</h6><h6 class="dlight" id="userStatus"><?php echo $user['IsSuspended'] ? 'Suspended' : 'Active'; ?></h6>
                                 </div>
                                 <div class="account_row">
                                     <h6 class="dbold">Library Books:</h6><h6 class="dlight"><?php echo $bookCount; ?></h6>
@@ -219,7 +228,7 @@
             <div class="susconf">
                 <h1>Account Suspended!</h1>                
                 <img src="../verif_icon/warning.png" alt="warn" class="swarn">
-                <p>This account has been suspended for  n days.</p>
+                <p>This account has been suspended for {duration} days.</p>
                 <button class="suspclose">Close</button>
             </div>
         </div>
@@ -255,12 +264,49 @@
                     return; // Don't proceed if the fields are not filled
                 }
 
-                // Show the confirmation popup and hide the form background
-                confirmationPopup.style.display = "flex";  // Show confirmation popup
-                popupSuspendBg.style.visibility = "hidden"; // Hide the suspend form
+                // Get the userID (assume it is available in a variable or data attribute)
+                const userID = <?php echo $user['UserID']; ?>;
 
-                // Clear the form after submission
-                suspendForm.reset();
+                // Prepare the data for the AJAX request
+                const data = {
+                    userID: userID,
+                    reason: reasonField.value.trim(),
+                    days: suspensionDays.value
+                };
+
+                // Send AJAX request to suspend the account
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "suspend_user.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                // Handle the response from the server
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText); // Parse the response JSON
+                        if (response.success) {
+                            // Show confirmation popup
+                            confirmationPopup.style.display = "flex";  
+                            popupSuspendBg.style.visibility = "hidden"; // Hide the suspend form
+
+                            // Update the confirmation message with the selected duration
+                            const durationText = suspensionDays.value;
+                            document.querySelector(".susconf p").textContent = `This account has been suspended for ${durationText} days.`;
+
+                            // Update the user status text in the account section
+                            document.getElementById('userStatus').textContent = "Suspended";
+                        } else {
+                            alert("Failed to suspend account. Please try again.");
+                        }
+                    } else {
+                        alert("An error occurred. Please try again.");
+                    }
+                };
+
+                // Serialize the form data
+                const params = new URLSearchParams(data).toString();
+
+                // Send the request
+                xhr.send(params);
             });
 
             // Close the confirmation popup

@@ -3,7 +3,7 @@
     include('../connection.php');
 
     if (!isset($_SESSION['username'])) {
-        header("Location: login.php"); // Redirect to login if not logged in
+        header("Location: ../index.php"); // Redirect to login if not logged in
         exit();
     }
 
@@ -41,7 +41,7 @@
         <div class="parent">
             <nav class="nav_container">
                 <ul>
-                    <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 200px; height: 90px; margin-bottom: 25px; margin-top: 25px;">
+                    <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 209px; height: 65px; margin-top: 1.5rem; margin-bottom: 2rem;">
                     <li>
                         <a href="bookprev.php">
                             <img src="../nav_icon/Home Icon.svg" alt="Home">

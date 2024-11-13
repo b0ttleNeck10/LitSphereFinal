@@ -1,181 +1,190 @@
 <?php
-        session_start();
-        include('../connection.php');
-        
-        // Ensure user is logged in
-        if (!isset($_SESSION['fname'])) {
-            echo "You must be logged in to view books.";
-            exit();
-        }
-        
-        // Fetch all books from the database
-        $sql = "SELECT * FROM Books";
-        $result = mysqli_query($conn, $sql);    
-    ?>
+    session_start();
+    include('../connection.php');
+    
+    // Ensure user is logged in
+    if (!isset($_SESSION['fname'])) {
+        $_SESSION['fname'] = $user['FirstName'];
+        header("Location: ../index.php");
+        exit();
+    }
+    
+    // Fetch all books from the database
+    $sql = "SELECT * FROM Books";
+    $result = mysqli_query($conn, $sql);    
+?>
 
-    <!doctype HTML>
+<!doctype HTML>
 
-    <html>
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>LitSphere</title>
-            <link rel="icon" href="../favicon/favicon.ico">
-            <link rel="stylesheet" href="reader.css">
-            <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        </head>
-        <body>        
-            <div class="parent">
-                <nav class="nav_container">
-                    <ul>
-                        <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 200px; height: 90px; margin-bottom: 25px; margin-top: 25px;">
-                        <li>
-                            <a href="notification.php">
-                                <img src="../nav_icon/Notification Icon.svg" alt="Home">
-                                <span class="nav_item">Notifications</span> 
-                            </a>                        
-                        </li>
-                        <li>
-                            <a href="inventory.php" class="active">
-                                <img src="../nav_icon/Library Icon.svg" alt="Library">
-                                <span class="nav_item">My Library</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="readers.php"> 
-                                <img src="../nav_icon/Reader Icon.svg" alt="History">
-                                <span class="nav_item">Reader</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img src="../nav_icon/Profile Icon.svg" alt="Profile">
-                                <span class="nav_item">Profile</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="content_wrapper">
-                    <div class="content_container">
-                        <div class="search_cat_wrapper">
-                            <div class="current_page">
-                                <h3>Book Inventory</h3>
-                            </div>
-                            <div class="search_container">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                                <input type="text" id="search_bar" placeholder="Search books">
-                            </div>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LitSphere</title>
+        <link rel="icon" href="../favicon/favicon.ico">
+        <link rel="stylesheet" href="reader.css">
+        <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <body>        
+        <div class="parent">
+            <nav class="nav_container">
+                <ul>
+                    <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 209px; height: 65px; margin-top: 1.5rem; margin-bottom: 2rem;">
+                    <li>
+                        <a href="notification.php">
+                            <img src="../nav_icon/Notification Icon.svg" alt="Home">
+                            <span class="nav_item">Notifications</span> 
+                        </a>                        
+                    </li>
+                    <li>
+                        <a href="inventory.php" class="active">
+                            <img src="../nav_icon/Library Icon.svg" alt="Library">
+                            <span class="nav_item">Inventory</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="readers.php"> 
+                            <img src="../nav_icon/Reader Icon.svg" alt="History">
+                            <span class="nav_item">Reader</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="adminprofile.php">
+                            <img src="../nav_icon/Profile Icon.svg" alt="Profile">
+                            <span class="nav_item">
+                                <?php
+                                    if (isset($_SESSION['fname'])) {
+                                        echo htmlspecialchars($_SESSION['fname']);
+                                    } else {
+                                        echo "Guest"; // Or some default text if the session variable is not set
+                                    }
+                                ?>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="content_wrapper">
+                <div class="content_container">
+                    <div class="search_cat_wrapper">
+                        <div class="current_page">
+                            <h3>Book Inventory</h3>
                         </div>
-                        <div class="inventory_container">
-                            <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                                <div class="content" data-book-id="<?php echo $row['BookID']; ?>">
-                                    <img src="<?php echo $row['CoverImageURL']; ?>" alt="Book Cover">
-                                    <div class="content_desc">
-                                        <div class="book_desc">
-                                            <h4><?php echo $row['Title']; ?></h4>
-                                            <p><?php echo $row['AuthorName']; ?> | <?php echo $row['Genre']; ?></p>
-                                        </div>
-                                        <i class="fa-regular fa-pen-to-square edit-icon" onclick="editBook(<?php echo $row['BookID']; ?>)"></i>
-                                        <i class="fa-regular fa-trash-can delete-icon" onclick="deleteBook(<?php echo $row['BookID']; ?>)"></i>
+                        <div class="search_container">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="search_bar" placeholder="Search books">
+                        </div>
+                    </div>
+                    <div class="inventory_container">
+                        <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                            <div class="content" data-book-id="<?php echo $row['BookID']; ?>">
+                                <img src="<?php echo $row['CoverImageURL']; ?>" alt="Book Cover">
+                                <div class="content_desc">
+                                    <div class="book_desc">
+                                        <h4><?php echo $row['Title']; ?></h4>
+                                        <p><?php echo $row['AuthorName']; ?> | <?php echo $row['Genre']; ?></p>
                                     </div>
+                                    <i class="fa-regular fa-pen-to-square edit-icon" onclick="editBook(<?php echo $row['BookID']; ?>)"></i>
+                                    <i class="fa-regular fa-trash-can delete-icon" onclick="deleteBook(<?php echo $row['BookID']; ?>)"></i>
                                 </div>
-                            <?php endwhile; ?>
-                            <div class="no_book" style="display: none;">No books found.</div>
-                        </div>
-                        <button id="addBookBtn" onclick="showPopup()" type="submit" style="padding-left: 25px; padding-right: 25px; margin-bottom: 0;">Add book</button>            
-                    </div>
-                    <footer>
-                        <hr>
-                        <p>Copyrights &#169; 2024 Litsphere. All Rights Reserved.</p>
-                        <div class="iContainer">
-                            <a href="#"><img src="../footer_icon/Facebook Logo.png" alt="Facebook Logo"></a>
-                            <a href="#"><img src="../footer_icon/Twitter Logo.png" alt="Twitter Logo"></a>
-                            <a href="#"><img src="../footer_icon/Instagram Logo.png" alt="Instagram Logo"></a>
-                        </div>        
-                    </footer> 
-                    <div class="popupaddbg">
-                        <div class="popupadd">
-                            <i class="fa-solid fa-xmark" onclick="closePopup()" id="closeAddBook"></i>
-                            <div class="form-content">
-                                <form id="addBookForm" action="add_book.php" method="POST" enctype="multipart/form-data">
-                                    <label class="image-upload" for="myImg">
-                                        <input type="file" id="myImg" name="myImg" hidden>
-                                        <div class="image-placeholder">Click to Add Image</div>
-                                    </label>
-                                    <div class="form-container">
-                                        <div class="form-fields">
-                                            <label for="book-title">Book Title</label>
-                                            <input type="text" id="Book-title" name="bTitle" class="bookinput">   
-                                            <label for="author">Author</label>
-                                            <input type="text" id="Book-author" name="bAuthor" class="bookinput">
-                                            <label for="genre">Genre</label>
-                                            <select id="genre" name="genre" class="genre-select">
-                                                <option value="Action">Action</option>
-                                                <option value="Adventure">Adventure</option>
-                                                <option value="Comedy">Comedy</option>
-                                                <option value="Crime">Crime</option>
-                                                <option value="Drama">Drama</option>
-                                                <option value="Fantasy">Fantasy</option>
-                                                <option value="Historical">Historical</option>
-                                                <option value="Romance">Romance</option>
-                                                <option value="Science Fiction">Science Fiction</option>
-                                                <option value="Thriller">Thriller</option>
-                                            </select>           
-                                            <label for="description">Description</label>
-                                            <textarea id="Book-Desc" name="bDesc" class="bookdesc"></textarea>
-                                        </div>
-                                        <button class="add-book-btn" type="button" onclick="addBook()">Add Book</button>
-                                    </div>
-                                </form>
                             </div>
-                        </div>
+                        <?php endwhile; ?>
+                        <div class="no_book" style="display: none;">No books found.</div>
                     </div>
-                    <div class="popupEditWrapper">
-                        <div class="editContainer">
-                            <i class="fa-solid fa-xmark" onclick="closePopup()" id="closeEditBook"></i>
-                            <div class="form-content">
-                                <form id="editBookForm" action="edit_book.php" method="POST" enctype="multipart/form-data">
-                                    <input type="hidden" name="bookID" id="editBookID" value="">
-                                    <label class="edit-image-upload" for="editMyImg">
-                                        <input type="file" id="editMyImg" name="editMyImg" hidden>
-                                        <div class="edit-image-placeholder">Click to Add Image</div>
-                                    </label>
-                                    <div class="edit-form-container">
-                                        <div class="edit-form-fields">
-                                            <input type="text" id="editBook-title" name="editBTitle" class="bookinput">
-                                            <input type="text" id="editBook-author" name="editBAuthor" class="bookinput">
-                                            <select id="editGenre" name="editGenre" class="genre-select">
-                                                <option value="Action">Action</option>
-                                                <option value="Adventure">Adventure</option>
-                                                <option value="Comedy">Comedy</option>
-                                                <option value="Crime">Crime</option>
-                                                <option value="Drama">Drama</option>
-                                                <option value="Fantasy">Fantasy</option>
-                                                <option value="Historical">Historical</option>
-                                                <option value="Romance">Romance</option>
-                                                <option value="Science Fiction">Science Fiction</option>
-                                                <option value="Thriller">Thriller</option>
-                                            </select>
-                                            <textarea id="editBook-Desc" name="editBDesc" class="bookdesc"></textarea>
-                                        </div>
-                                        <button type="submit" class="edit-book-btn">Edit Book</button>
+                    <button id="addBookBtn" onclick="showPopup()" type="submit" style="padding-left: 25px; padding-right: 25px; margin-bottom: 0;">Add book</button>            
+                </div>
+                <footer>
+                    <hr>
+                    <p>Copyrights &#169; 2024 Litsphere. All Rights Reserved.</p>
+                    <div class="iContainer">
+                        <a href="#"><img src="../footer_icon/Facebook Logo.png" alt="Facebook Logo"></a>
+                        <a href="#"><img src="../footer_icon/Twitter Logo.png" alt="Twitter Logo"></a>
+                        <a href="#"><img src="../footer_icon/Instagram Logo.png" alt="Instagram Logo"></a>
+                    </div>        
+                </footer> 
+                <div class="popupaddbg">
+                    <div class="popupadd">
+                        <i class="fa-solid fa-xmark" onclick="closePopup()" id="closeAddBook"></i>
+                        <div class="form-content">
+                            <form id="addBookForm" action="add_book.php" method="POST" enctype="multipart/form-data">
+                                <label class="image-upload" for="myImg">
+                                    <input type="file" id="myImg" name="myImg" hidden>
+                                    <div class="image-placeholder">Click to Add Image</div>
+                                </label>
+                                <div class="form-container">
+                                    <div class="form-fields">
+                                        <label for="book-title">Book Title</label>
+                                        <input type="text" id="Book-title" name="bTitle" class="bookinput">   
+                                        <label for="author">Author</label>
+                                        <input type="text" id="Book-author" name="bAuthor" class="bookinput">
+                                        <label for="genre">Genre</label>
+                                        <select id="genre" name="genre" class="genre-select">
+                                            <option value="Action">Action</option>
+                                            <option value="Adventure">Adventure</option>
+                                            <option value="Comedy">Comedy</option>
+                                            <option value="Crime">Crime</option>
+                                            <option value="Drama">Drama</option>
+                                            <option value="Fantasy">Fantasy</option>
+                                            <option value="Historical">Historical</option>
+                                            <option value="Romance">Romance</option>
+                                            <option value="Science Fiction">Science Fiction</option>
+                                            <option value="Thriller">Thriller</option>
+                                        </select>           
+                                        <label for="description">Description</label>
+                                        <textarea id="Book-Desc" name="bDesc" class="bookdesc"></textarea>
                                     </div>
-                                </form>
-                            </div>
+                                    <button class="add-book-btn" type="button" onclick="addBook()">Add Book</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="popupDeleteWrapper">
-                        <div class="deleteContainer">
-                            <p>Are you sure you want to delete?</p>
-                            <div class="decisionBtn">
-                                <button id="yesBtn">Yes</button>
-                                <button id="noBtn">No</button>    
-                            </div>                        
+                </div>
+                <div class="popupEditWrapper">
+                    <div class="editContainer">
+                        <i class="fa-solid fa-xmark" onclick="closePopup()" id="closeEditBook"></i>
+                        <div class="form-content">
+                            <form id="editBookForm" action="edit_book.php" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="bookID" id="editBookID" value="">
+                                <label class="edit-image-upload" for="editMyImg">
+                                    <input type="file" id="editMyImg" name="editMyImg" hidden>
+                                    <div class="edit-image-placeholder">Click to Add Image</div>
+                                </label>
+                                <div class="edit-form-container">
+                                    <div class="edit-form-fields">
+                                        <input type="text" id="editBook-title" name="editBTitle" class="bookinput">
+                                        <input type="text" id="editBook-author" name="editBAuthor" class="bookinput">
+                                        <select id="editGenre" name="editGenre" class="genre-select">
+                                            <option value="Action">Action</option>
+                                            <option value="Adventure">Adventure</option>
+                                            <option value="Comedy">Comedy</option>
+                                            <option value="Crime">Crime</option>
+                                            <option value="Drama">Drama</option>
+                                            <option value="Fantasy">Fantasy</option>
+                                            <option value="Historical">Historical</option>
+                                            <option value="Romance">Romance</option>
+                                            <option value="Science Fiction">Science Fiction</option>
+                                            <option value="Thriller">Thriller</option>
+                                        </select>
+                                        <textarea id="editBook-Desc" name="editBDesc" class="bookdesc"></textarea>
+                                    </div>
+                                    <button type="submit" class="edit-book-btn">Edit Book</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </div>            
-            </div>
+                </div>
+                <div class="popupDeleteWrapper">
+                    <div class="deleteContainer">
+                        <p>Are you sure you want to delete?</p>
+                        <div class="decisionBtn">
+                            <button id="yesBtn">Yes</button>
+                            <button id="noBtn">No</button>    
+                        </div>                        
+                    </div>
+                </div>
+            </div>            
+        </div>
         <script>
             applyStaggeredAnimations();
 
@@ -328,6 +337,36 @@
 
                 xhr.send();
             }
+
+            document.getElementById('editBookForm').onsubmit = function(event) {
+                event.preventDefault();  // Prevent normal form submission
+
+                // Prepare the form data using FormData
+                var formData = new FormData(this);
+
+                // Create a new AJAX request to update the book
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'edit_book.php', true);
+
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.status === 'success') {
+                            alert(response.message);
+                            closePopup();  // Close the edit popup
+                            location.reload();  // Reload the page to show updated details
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    } else {
+                        alert('Request failed. Please try again.');
+                    }
+                };
+
+                // Send the form data via AJAX
+                xhr.send(formData);
+            };
+
 
 
             function showPopup() {

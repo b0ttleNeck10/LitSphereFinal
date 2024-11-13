@@ -4,13 +4,13 @@ include('../connection.php');
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+    header("Location: ../index.php");
     exit();
 }
 
 // Check if userID is set in session
 if (!isset($_SESSION['userID'])) {
-    header("Location: login.php"); // Redirect to login if userID is not set
+    header("Location: ../index.php"); // Redirect to login if userID is not set
     exit();
 }
 

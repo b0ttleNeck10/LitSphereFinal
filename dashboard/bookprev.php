@@ -1,11 +1,48 @@
 <?php
     session_start();
+    date_default_timezone_set('Asia/Manila');
     include('../connection.php');
-    
-    // Ensure user is logged in
-    if (!isset($_SESSION['fname'])) {
-        echo "You must be logged in to view books.";
+
+    if (!isset($_SESSION['username'])) {
+        header("Location: ../index.php"); // Redirect to login if not logged in
         exit();
+    }
+
+    $userID = $_SESSION['userID'];
+
+    // Query to check if the user is suspended
+    $suspendedQuery = $conn->prepare("SELECT IsSuspended, SuspensionDate, SuspensionDuration, SuspensionReason FROM Users WHERE UserID = ?");
+    $suspendedQuery->bind_param('i', $userID);
+    $suspendedQuery->execute();
+    $suspendedResult = $suspendedQuery->get_result();
+
+    // Default values for suspension
+    $isSuspended = false;
+    $suspensionReason = '';
+    $suspensionRemaining = '';
+
+    if ($row = $suspendedResult->fetch_assoc()) {
+        $isSuspended = $row['IsSuspended'];
+        $suspensionReason = $row['SuspensionReason'];
+        
+        if ($isSuspended) {
+            // Calculate remaining suspension time
+            $currentTimestamp = time();
+            $suspensionStartDate = strtotime($row['SuspensionDate']);
+            $suspensionDurationInSeconds = ($row['SuspensionDuration']*24*60*60);
+            $suspensionEndDate = $suspensionStartDate + $suspensionDurationInSeconds;
+            $remainingTime = $suspensionEndDate - $currentTimestamp;
+
+            if ($remainingTime > 0) {
+                $daysRemaining = floor($remainingTime / (60 * 60 * 24));
+                $hoursRemaining = floor(($remainingTime % (60 * 60 * 24)) / (60 * 60));
+                $suspensionRemaining = "Remaining: $daysRemaining days $hoursRemaining hours";
+            } else {
+                // Suspension has ended, update the suspension status
+                $isSuspended = false;
+            }
+        }
+        
     }
 
     // Prepare and execute query to get all available books
@@ -13,6 +50,7 @@
     $booksQuery->execute();
     $booksResult = $booksQuery->get_result();
 ?>
+
 
 <!doctype HTML>
 
@@ -27,11 +65,28 @@
         <link href='https://fonts.googleapis.com/css?family=Schibsted Grotesk' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
-    <body>        
+    <body>
+        <?php if ($isSuspended): ?>
+            <div class="suspendedAccWrapper" style="visibility: visible;">
+                <div class="suspendedAccContainer">
+                    <div class="suspendedSignContainer">
+                        <img src="../verif_icon/suspended.svg" alt="Suspended">
+                        <h1>SUSPENDED</h1>
+                    </div>
+                    <div class="reasonAndDateContainer">
+                        <p id="suspendReason">You were suspended because <br> <?php echo htmlspecialchars($suspensionReason); ?></p>
+                        <p><?php echo htmlspecialchars($suspensionRemaining); ?></p>
+                    </div>
+                </div>
+            </div>
+        <?php else: ?>
+            <!-- If not suspended, don't display the wrapper -->
+            <div class="suspendedAccWrapper" style="visibility: hidden;"></div>
+        <?php endif; ?>   
         <div class="parent">
             <nav class="nav_container">
                 <ul>
-                    <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 200px; height: 90px; margin-bottom: 25px; margin-top: 25px;">
+                    <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 209px; height: 65px; margin-top: 1.5rem; margin-bottom: 2rem;">
                     <li>
                         <a href="bookprev.php" class="active">
                             <img src="../nav_icon/Home Icon.svg" alt="Home">
@@ -134,7 +189,7 @@
                         </div>
                     </div>
                 </div>
-            </div>           
+            </div>         
         </div>
         <script>
             let typingTimer;

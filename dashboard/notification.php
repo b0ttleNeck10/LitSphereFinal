@@ -6,7 +6,7 @@
     }
 
     if (!isset($_SESSION['userID'])) {
-        header("Location: login.php"); // Redirect to login if userID is not set
+        header("Location: ../index.php"); // Redirect to login if userID is not set
         exit();
     }
 
@@ -52,7 +52,7 @@
         <div class="parent"> 
             <nav class="nav_container">
                 <ul>
-                    <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 200px; height: 90px; margin-bottom: 25px; margin-top: 25px;">
+                    <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 209px; height: 65px; margin-top: 1.5rem; margin-bottom: 2rem;">
                     <li>
                         <a href="notification.php" class="active">
                             <img src="../nav_icon/Notification Icon.svg" alt="Home">
@@ -62,7 +62,7 @@
                     <li>
                         <a href="inventory.php">
                             <img src="../nav_icon/Library Icon.svg" alt="Library">
-                            <span class="nav_item">My Library</span>
+                            <span class="nav_item">Inventory</span>
                         </a>
                     </li>
                     <li>
@@ -74,7 +74,15 @@
                     <li>
                         <a href="#">
                             <img src="../nav_icon/Profile Icon.svg" alt="Profile">
-                            <span class="nav_item">Profile</span>
+                            <span class="nav_item">
+                                <?php
+                                    if (isset($_SESSION['fname'])) {
+                                        echo htmlspecialchars($_SESSION['fname']);
+                                    } else {
+                                        echo "Guest"; // Or some default text if the session variable is not set
+                                    }
+                                ?>
+                            </span>
                         </a>
                     </li>
                 </ul>

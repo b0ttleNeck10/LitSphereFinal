@@ -4,7 +4,8 @@
 
     // Ensure the user is logged in (if needed)
     if (!isset($_SESSION['fname'])) {
-        echo "You must be logged in to view the readers.";
+        $_SESSION['fname'] = $user['FirstName'];
+        header("Location: ../index.php");
         exit();
     }
 
@@ -32,7 +33,7 @@
         <div class="parent">
             <nav class="nav_container">
                 <ul>
-                    <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 200px; height: 90px; margin-bottom: 25px; margin-top: 25px;">
+                    <img src="../nav_icon/Logo and Name.svg" alt="Logo & Name" style="width: 209px; height: 65px; margin-top: 1.5rem; margin-bottom: 2rem;">
                     <li>
                         <a href="notification.php">
                             <img src="../nav_icon/Notification Icon.svg" alt="Home">
@@ -42,7 +43,7 @@
                     <li>
                         <a href="inventory.php">
                             <img src="../nav_icon/Library Icon.svg" alt="Library">
-                            <span class="nav_item">My Library</span>
+                            <span class="nav_item">Inventory</span>
                         </a>
                     </li>
                     <li>
@@ -52,9 +53,17 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="adminprofile.php">
                             <img src="../nav_icon/Profile Icon.svg" alt="Profile">
-                            <span class="nav_item">Profile</span>
+                            <span class="nav_item">
+                                <?php
+                                    if (isset($_SESSION['fname'])) {
+                                        echo htmlspecialchars($_SESSION['fname']);
+                                    } else {
+                                        echo "Guest"; // Or some default text if the session variable is not set
+                                    }
+                                ?>
+                            </span>
                         </a>
                     </li>
                 </ul>
@@ -67,15 +76,15 @@
                     <div class="reader_wrapper">
                         <?php while ($row = mysqli_fetch_assoc($result)): ?>
                             <div class="reader_container">
+                                <a href="managereaderacc.php?userid=<?php echo $row['UserID']; ?>">
+                                    <img src="../reader_img/userImg.png" alt="User Profile Picture">
+                                    <p><?php echo $row['FirstName'] . ' ' . $row['LastName']; ?></p>
+                                </a>
                                 <?php if ($row['IsSuspended']): ?>
                                     <div class="suspended">
                                         <p>Suspended</p>
                                     </div>
                                 <?php endif; ?>
-                                <a href="managereaderacc.php?userid=<?php echo $row['UserID']; ?>">
-                                    <img src="../reader_img/userImg.png" alt="User Profile Picture">
-                                    <p><?php echo $row['FirstName'] . ' ' . $row['LastName']; ?></p>
-                                </a>
                             </div>
                         <?php endwhile; ?>                                      
                     </div>
