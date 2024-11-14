@@ -10,7 +10,7 @@
     }
 
     // Fetch all users from the Users table
-    $sql = "SELECT * FROM Users";
+    $sql = "SELECT * FROM Users WHERE Email != 'admin@example.com'";
     $result = mysqli_query($conn, $sql);
 
     // Close the connection
@@ -75,18 +75,19 @@
                     </div>
                     <div class="reader_wrapper">
                         <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                            <div class="reader_container">
-                                <a href="managereaderacc.php?userid=<?php echo $row['UserID']; ?>">
-                                    <img src="../reader_img/userImg.png" alt="User Profile Picture">
-                                    <p><?php echo $row['FirstName'] . ' ' . $row['LastName']; ?></p>
-                                </a>
-                                <?php if ($row['IsSuspended']): ?>
-                                    <div class="suspended">
-                                        <p>Suspended</p>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        <?php endwhile; ?>                                      
+							<?php if ($row['Email'] === 'admin@example.com') continue; // Skip this iteration ?>
+							<div class="reader_container">
+								<a href="managereaderacc.php?userid=<?php echo $row['UserID']; ?>">
+									<img src="../reader_img/userImg.png" alt="User Profile Picture">
+									<p><?php echo $row['FirstName'] . ' ' . $row['LastName']; ?></p>
+								</a>
+								<?php if ($row['IsSuspended']): ?>
+									<div class="suspended">
+										<p>Suspended</p>
+									</div>
+								<?php endif; ?>
+							</div>
+						<?php endwhile; ?>                              
                     </div>
                 </div>
                 <footer>

@@ -374,6 +374,10 @@ input::placeholder {
     background-image: linear-gradient(to right, #17A4C0, #053B9F);
 }
 
+.req_book button:hover {
+	background: #0056b3;
+}
+
 .book_deets {
     margin-left: 2rem;
     margin-top: 1rem;
@@ -499,6 +503,10 @@ form button {
     padding: 10px 30px 10px 30px;
     margin-top: 1.5rem !important;
     margin: auto;
+}
+
+form button:hover {
+	background: #0056b3;
 }
 
 .choice {
@@ -710,6 +718,10 @@ td, th {
     border-radius: 10px;
 }
 
+#closeReturn:hover {
+	background: #0056b3;
+}
+
 #returnBtn {
     position: absolute;
     right: 34px;
@@ -721,6 +733,10 @@ td, th {
     color: white;
     padding: 10px 20px;
     border-radius: 10px;
+}
+
+#returnBtn:hover {
+	background: #0056b3;
 }
 
 #returnButton {
@@ -738,6 +754,10 @@ td, th {
     transition: 0.5s;
 }
 
+#returnButton:hover {
+	background: #0056b3;
+}
+
 /* Suggestions */
 
 #bookSuggestion {
@@ -749,6 +769,25 @@ td, th {
     font-size: 1.5rem;
     margin-bottom: 0;
     margin-top: 1rem;
+}
+
+#seeMoreBooks {
+	font-family: 'Poppins';
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: #AEDDFF !important;
+	color: black;
+	border-radius: 8px;
+	animation: fadeAndScale 1s cubic-bezier(.39,-1.05,.58,1.95);
+    transform-origin: center bottom;
+	animation-delay: -0.5s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#seeMoreBooks:hover {
+	box-shadow: 4px 4px 5px #9099a0;
+    transform: translateY(-3px);
 }
 
 /* History */
@@ -802,7 +841,7 @@ td, th {
 }
 
 .clearBtn #clearHistoryBtn:hover {
-    background-image: linear-gradient(to right, #16869c, #07358a);
+	background: #0056b3;
 }
 
 
@@ -910,7 +949,7 @@ form #logoutBtn {
 }
 
 form #logoutBtn:hover {
-    background-image: linear-gradient(to right, #16869c, #07358a);
+    background: #0056b3;
 }
 
 #multiBtn {
@@ -1166,6 +1205,10 @@ form .denyBtn {
     padding-bottom: 12px;
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.seemore:hover {
+	background: #0056b3;
 }
 
 /*  Manage Readers Account  */
@@ -1516,6 +1559,10 @@ form .denyBtn {
     cursor: pointer;
     padding: 8px 25px;
     transition: 0.5s;
+}
+
+#addBookBtn:hover {
+	background: #0056b3;
 }
 
 /* Book Inventory */

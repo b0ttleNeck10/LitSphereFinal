@@ -253,10 +253,29 @@
             closeButton.addEventListener("click", function () {
                 popupSuspendBg.style.visibility = "hidden";
             });
+			
+			// On page load, check if the suspend button should be disabled
+			window.addEventListener('DOMContentLoaded', function () {
+				if (localStorage.getItem('suspendButtonDisabled') === 'true') {
+					disableSuspendButton();
+				}
+			});
+
+			// Disable the suspend button and change its style
+			function disableSuspendButton() {
+				suspendButton.disabled = true;
+				suspendButton.textContent = "Account Suspended";
+				suspendButton.style.backgroundImage = "linear-gradient(to right, #FF9431, #FF0000)";
+				suspendButton.style.color = "white";
+			}
 
             // When the form is submitted
             submitButton.addEventListener("click", function (event) {
                 event.preventDefault(); // Prevent the form from submitting the traditional way
+				
+				disableSuspendButton();
+				
+				localStorage.setItem('suspendButtonDisabled', 'true');
 
                 // Check if the required fields are filled
                 if (reasonField.value.trim() === "" || suspensionDays.value === "") {
@@ -294,6 +313,7 @@
 
                             // Update the user status text in the account section
                             document.getElementById('userStatus').textContent = "Suspended";
+							
                         } else {
                             alert("Failed to suspend account. Please try again.");
                         }

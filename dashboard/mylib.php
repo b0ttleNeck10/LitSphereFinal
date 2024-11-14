@@ -49,6 +49,24 @@
     while ($row = $result->fetch_assoc()) {
         $borrowedBooks[] = $row;
     }
+
+    // Fetch some suggested books (can be popular, trending, or random)
+    $sql_suggested_books = "SELECT * FROM Books ORDER BY RAND() LIMIT 5";  // Example query
+    $result_suggested = $conn->query($sql_suggested_books);
+    $suggestedBooks = [];
+
+    if ($result_suggested->num_rows > 0) {
+        while ($row = $result_suggested->fetch_assoc()) {
+            $suggestedBooks[] = $row;
+        }
+    } else {
+        // Fallback: Example static books if no data found
+        $suggestedBooks = [
+            ['BookID' => 1, 'Title' => 'Book 1', 'CoverImageURL' => '../book_img/image1.svg'],
+            ['BookID' => 2, 'Title' => 'Book 2', 'CoverImageURL' => '../book_img/image2.svg'],
+            ['BookID' => 3, 'Title' => 'Book 3', 'CoverImageURL' => '../book_img/image3.svg'],
+        ];
+    }
 ?>
 
 <!doctype HTML>
@@ -134,18 +152,17 @@
                         </div>            
                         <div class="book_wrapper" id="bookSuggestion">
                             <div class="book_container">
-                                <div class="book">
-                                    <a href="#">
-                                        <img src="../book_img/image1.svg">
-                                        <p>Read Now!</p>
-                                    </a>
-                                </div>
-                                <div class="book">
-                                    <a href="#">
-                                        <img src="../book_img/image1.svg">
-                                        <p>Read Now!</p>
-                                    </a>
-                                </div>                  
+                                <?php foreach ($suggestedBooks as $book): ?>
+                                    <div class="book">
+                                        <a href="book_detail.php?title=<?php echo urlencode($book['Title']); ?>">
+                                            <img src="<?php echo $book['CoverImageURL']; ?>" alt="<?php echo htmlspecialchars($book['Title']); ?>">
+                                            <p> Read Now! </p>
+                                        </a>
+                                    </div>
+                                <?php endforeach; ?>     
+								<a href="bookprev.php" id="seeMoreBooks">
+									<p>See more!</p>
+								</a>
                             </div>
                         </div>    
                     </div>
