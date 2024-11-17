@@ -30,6 +30,10 @@ body {
     min-height: 100vh;
 }
 
+.nav_container:hover {
+    
+}
+
 .nav_container a {
     display: flex;
     flex-direction: row;
