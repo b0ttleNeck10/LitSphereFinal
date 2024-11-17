@@ -32,11 +32,11 @@
                     $_SESSION['fname'] = $row['FirstName']; // Store user first name in session
                     $_SESSION['fullName'] = $row['FirstName'] . ' ' . $row['LastName']; // Optional: store full name
 
-                    // Debugging: Check user role
-                    error_log('User is admin: ' . ($email === 'admin@example.com' ? 'Yes' : 'No'));
+                    // Get the user's role
+                    $role = $row['Role'];
 
-                    // Redirect URL based on the user type (admin or regular user)
-                    if ($email === 'admin@example.com') {
+                    // Redirect based on the user role
+                    if ($role === 'Admin') {
                         $response = array('status' => 'success', 'redirectUrl' => 'dashboard/notification.php');
                     } else {
                         $response = array('status' => 'success', 'redirectUrl' => 'dashboard/bookprev.php');

@@ -8,7 +8,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>LitSphere</title>
-        <link rel="icon" href="favicon/favicon.ico">
+        <link rel="icon" href="../favicon/favicon.ico">
         <link rel="stylesheet" href="myStyle.css">
         <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -18,7 +18,7 @@
         <div class="parent">
             <div class="user_auth_container">
                 <div id="logo">
-                    <img src="Logo and Name.svg" alt="LitSphere Logo" style="height: 88px; width: 396px;">
+                    <img src="Logo and Name.svg" alt="LitSphere Logo" style="height: 76px; width: 382px;">
                 </div>
                 <div class="user_auth">
                     <div class="login">
@@ -85,9 +85,9 @@
             <hr>
             <p>Copyrights &#169; 2024 Litsphere. All Rights Reserved.</p>
             <div class="iContainer">
-                <a href="#"><img src="footer_icon/Facebook Logo.png" alt="Facebook Logo"></a>
-                <a href="#"><img src="footer_icon/Twitter Logo.png" alt="Twitter Logo"></a>
-                <a href="#"><img src="footer_icon/Instagram Logo.png" alt="Instagram Logo"></a>
+                <a href="#"><img src="../footer_icon/Facebook Logo.png" alt="Facebook Logo"></a>
+                <a href="#"><img src="../footer_icon/Twitter Logo.png" alt="Twitter Logo"></a>
+                <a href="#"><img src="../footer_icon/Instagram Logo.png" alt="Instagram Logo"></a>
             </div>        
         </footer>
         <script>
@@ -163,7 +163,7 @@
                         alert("An error occurred while processing your request.");
                     }
                 });
-            });
+            }); 
 
             $('#loginForm').submit(function(event) {
                 event.preventDefault(); // Prevent the default form submission
