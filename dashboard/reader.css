@@ -36,7 +36,7 @@ body {
     align-items: center;
     font-family: 'Poppins';
     text-decoration: none;
-    font-size: 1.3rem;
+    font-size: 1rem;
     /* border: 1px solid black; */
     width: 75%;
     color: black;
@@ -340,7 +340,7 @@ input::placeholder {
 
 .current_page h3 {
     font-family: 'Poppins';
-    font-size: 2.3rem;
+    font-size: 2rem;
     margin: 0;
 }
 
@@ -358,6 +358,8 @@ input::placeholder {
 }
 
 .req_book img {
+    height: 310px;
+    width: 208px;
     border-radius: 15px;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -368,17 +370,20 @@ input::placeholder {
     font-size: 1.3rem;
     color: white;
     border: none;
-    border-radius: 16px;
-    height: 60px;
-    width: 259px;
+    border-radius: 9px;
+    height: 50px;
     background-image: linear-gradient(to right, #17A4C0, #053B9F);
 }
 
 .req_book button:hover {
-	background: #0056b3;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 .book_deets {
+    background-color: #CCE9FF;
+    padding: 15px;
+    border-radius: 10px;
     margin-left: 2rem;
     margin-top: 1rem;
     display: flex;
@@ -414,6 +419,15 @@ input::placeholder {
     position: fixed;
     width: 100%;
     height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0s 0.5s; /* Fade out with a delay */
+}
+
+.request.show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease, visibility 0s 0s; /* No delay when showing */
 }
 
 .req_wrapper {
@@ -433,7 +447,6 @@ input::placeholder {
 }
 
 .verif_container {
-    visibility: hidden;
     position: absolute;
     top: 50px;
     display: flex;
@@ -499,14 +512,15 @@ form button {
     border: none;
     color: white;
     background-image: linear-gradient(to right, #17A4C0, #053B9F);
-    border-radius: 15px;
+    border-radius: 8px;
     padding: 10px 30px 10px 30px;
     margin-top: 1.5rem !important;
     margin: auto;
 }
 
 form button:hover {
-	background: #0056b3;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 .choice {
@@ -531,7 +545,7 @@ form button:hover {
     margin-top: 1rem;
     display: flex;
     flex-direction: row;
-    height: 217px;
+    height: 197px;
 }
 
 .slider {
@@ -565,7 +579,7 @@ form button:hover {
     border: 0px solid #d1e4ff; /* Light blue border */
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);    
     width: 60px;
-    height: 215px;
+    height: 195px;
     cursor: pointer;
     /* z-index: 1; */
     transition: background-color 0.3s ease;
@@ -716,10 +730,11 @@ td, th {
     color: white;
     padding: 10px 20px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 #closeReturn:hover {
-	background: #0056b3;
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 #returnBtn {
@@ -733,10 +748,11 @@ td, th {
     color: white;
     padding: 10px 20px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 #returnBtn:hover {
-	background: #0056b3;
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 #returnButton {
@@ -755,10 +771,14 @@ td, th {
 }
 
 #returnButton:hover {
-	background: #0056b3;
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 /* Suggestions */
+
+.suggestion {
+    margin-top: 1rem;
+}
 
 #bookSuggestion {
     margin-top: 1rem !important   ;
@@ -767,26 +787,23 @@ td, th {
 .suggestion h4 {
     font-family: 'Poppins';
     font-size: 1.5rem;
-    margin-bottom: 0;
-    margin-top: 1rem;
+    margin: 0;
 }
 
 #seeMoreBooks {
-	font-family: 'Poppins';
-    align-items: center;
-    justify-content: center;
+    border-radius: 8px;
+    background-color: #AEDDFF;
     display: flex;
-    background-color: #AEDDFF !important;
-	color: black;
-	border-radius: 8px;
-	animation: fadeAndScale 1s cubic-bezier(.39,-1.05,.58,1.95);
+    justify-content: center;
+    align-items: center;
+    color: black;
     transform-origin: center bottom;
-	animation-delay: -0.5s;
+    animation-delay: -0.5s;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #seeMoreBooks:hover {
-	box-shadow: 4px 4px 5px #9099a0;
+    box-shadow: 4px 4px 5px #9099a0;
     transform: translateY(-3px);
 }
 
@@ -841,7 +858,7 @@ td, th {
 }
 
 .clearBtn #clearHistoryBtn:hover {
-	background: #0056b3;
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 
@@ -908,11 +925,15 @@ td, th {
     margin-top: .5rem !important;
     font-size: 1rem;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     background-image: linear-gradient(to right, #17A4C0, #053B9F);
     color: white;
     cursor: pointer;
     padding: 8px 15px 8px 15px;
+}
+
+#savePassBtn:hover {
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 #saveDetails {
@@ -921,11 +942,15 @@ td, th {
     margin-top: .5rem !important;
     font-size: 1rem;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     background-image: linear-gradient(to right, #17A4C0, #053B9F);
     color: white;
     cursor: pointer;
     padding: 8px 15px 8px 15px;
+}
+
+#saveDetails:hover {
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 .saveChangesBtn {
@@ -949,7 +974,7 @@ form #logoutBtn {
 }
 
 form #logoutBtn:hover {
-    background: #0056b3;
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 #multiBtn {
@@ -1139,7 +1164,7 @@ form .denyBtn {
     display: flex;
     flex-direction: column;
     margin-left: 1rem;
-    justify-content: space-between; /* Evenly space out the content */
+    gap: 2px;
 }
 
 
@@ -1147,7 +1172,8 @@ form .denyBtn {
     text-transform: uppercase;
     font-family: 'Schibsted Grotesk', sans-serif;
     font-weight: bolder;
-    font-size: 2.9rem;
+    font-size: 2rem;
+    height: 78px;
     word-spacing: 0.1rem;
     color: #000;                  
     margin: 0;
@@ -1155,8 +1181,11 @@ form .denyBtn {
 }
 
 .bookinfo {
+    display: flex;
+    flex-direction: column;
     margin: 0;
     width: 500px;
+    gap: 7px;
 }
 
 .bookinfo h2 {
@@ -1187,28 +1216,18 @@ form .denyBtn {
 
 .seemore {
     display: inline-block;
-    position: relative;
-    bottom: 0px;
+    position: absolute;
+    bottom: 31px;
     background-image: linear-gradient(to right, #17A4C0, #053B9F);
     border: none;
-    border-radius: 14px;
+    border-radius: 8px;
     color: white;
     font-family: 'Schibsted Grotesk';
-    font-size: 1.2rem;
-    
-    margin-bottom: 10px;
+    font-size: 1rem;    
+    margin-top: 1rem;
     text-decoration: none;
     margin-left: 0px;
-
-    
-    padding-top: 13px;
-    padding-bottom: 12px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-.seemore:hover {
-	background: #0056b3;
+    padding: 10px 20px;
 }
 
 /*  Manage Readers Account  */
@@ -1251,7 +1270,7 @@ form .denyBtn {
 
 .account_row h6 {
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 1rem;
     
 }
 
@@ -1268,7 +1287,7 @@ form .denyBtn {
 }
 
 .suspend-btn {
-    background: linear-gradient(white, white) padding-box,
+    background: linear-gradient(#E3F2FD, #E3F2FD) padding-box,
     linear-gradient(to right, #FF9431, #FF0000) border-box;
     color: red;
     border-width: 2px;
@@ -1277,7 +1296,7 @@ form .denyBtn {
     border-radius: 8px;
     padding: 8px 15px;
     font-family: 'Poppins', sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
     margin-top: 3rem;
 }
@@ -1289,7 +1308,7 @@ form .denyBtn {
 
 .borrowhist h3{
     font-family: 'Poppins';
-    font-size: 2.3rem;  
+    font-size: 2rem;  
     margin-top: 0.5rem;
     font-weight: bold;
     margin-bottom: 0px;
@@ -1562,7 +1581,7 @@ form .denyBtn {
 }
 
 #addBookBtn:hover {
-	background: #0056b3;
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 /* Book Inventory */
@@ -1585,7 +1604,7 @@ form .denyBtn {
 
 .current_page_admin h3 {
     font-family: 'Poppins';
-    font-size: 2.3rem;
+    font-size: 2rem;
     margin: 0;
 }
 
@@ -1739,7 +1758,8 @@ input::placeholder {
     justify-content: center;
     align-items: center;
     background-color: #d4d4d4;
-    border: 1px solid black;
+    border: 1px solid black;    
+    border-radius: 10px;
     height: 550px;
     width: 350px;
     margin-right: 1rem;
@@ -1789,7 +1809,7 @@ input::placeholder {
     border-radius: 5px;
 }
 
-.genre-select{
+.genre-select {
     font-family: 'Poppins';
     background: linear-gradient(90deg, #17A4C0, #053B9F); 
     border-radius: 8px;
@@ -1797,6 +1817,10 @@ input::placeholder {
     color: white;
     border-color: #C7E6FD;
     padding: 5px;
+}
+
+.genre-select:hover {
+    background-image: linear-gradient(to right, #16869c, #07358a);
 }
 
 
@@ -1911,6 +1935,7 @@ input::placeholder {
     align-items: center;
     background-color: #d4d4d4;
     border: 1px solid black;
+    border-radius: 10px;
     height: 550px;
     width: 350px;
     margin-right: 1rem;

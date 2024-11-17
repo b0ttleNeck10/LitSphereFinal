@@ -154,7 +154,7 @@
                             <div class="book_container">
                                 <?php foreach ($suggestedBooks as $book): ?>
                                     <div class="book">
-                                        <a href="book_detail.php?title=<?php echo urlencode($book['Title']); ?>">
+                                        <a href="suggestionbookpage.php?book_id=<?php echo htmlspecialchars($book['BookID']); ?>">
                                             <img src="<?php echo $book['CoverImageURL']; ?>" alt="<?php echo htmlspecialchars($book['Title']); ?>">
                                             <p> Read Now! </p>
                                         </a>
@@ -302,6 +302,20 @@
                     console.error('No books available for the slider.');
                 }
             });
+
+            function openBookDetails(imageURL, title, author, description, genre, bookID) {
+                console.log("Opening book details:", title); // Debug line
+                document.querySelector('.modal-image').src = imageURL; // Assuming you have this element
+                document.querySelector('.modal-title').textContent = title;
+                document.querySelector('.modal-author').textContent = author;
+                document.querySelector('.modal-description').textContent = description;
+                document.querySelector('.modal-genre').textContent = genre; // Genre
+                document.querySelector('.popupbook').style.display = 'flex';
+
+                // Update the "See more" link with the book ID
+                const seeMoreLink = document.querySelector('.seemore');
+                seeMoreLink.href = `bookpage.php?book_id=${bookID}`;
+            }
         </script>                      
     </body>
 </html>

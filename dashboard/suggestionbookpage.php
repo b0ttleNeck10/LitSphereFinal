@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="content_container">         
                     <div class="current_page">
                         <a href="javascript:void(0);" onclick="goBack()"><i class="fa-solid fa-chevron-left fa-2x"></i></a>
-                        <a href="bookprev.php" style="margin-right: 10px;"><h3>Home</h3></a><h3>/<?php echo '  ' . htmlspecialchars($book['Title']); ?></h3>
+                        <a href="mylib.php" style="margin-right: 10px;"><h3>My Library</h3></a><h3>/<?php echo '  ' . htmlspecialchars($book['Title']); ?></h3>
                     </div>         
                     <div class="book_page">
                         <div class="req_book">

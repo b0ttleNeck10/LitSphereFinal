@@ -72,7 +72,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="adminprofile.php">
                             <img src="../nav_icon/Profile Icon.svg" alt="Profile">
                             <span class="nav_item">
                                 <?php
