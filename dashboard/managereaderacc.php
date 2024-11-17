@@ -67,16 +67,12 @@
     // Query to count the number of books in the user's library
     $countBooksSQL = "
         SELECT COUNT(*) AS bookCount
-        FROM BorrowingHistory bh
-        WHERE bh.UserID = ? AND bh.ReturnDate IS NULL
-        UNION
-        SELECT COUNT(*) AS bookCount
         FROM Borrow br
-        WHERE br.UserID = ? AND br.Status != 'Returned'
+        WHERE br.UserID = ? AND br.Status = 'Active'
     ";
 
     $stmt = $conn->prepare($countBooksSQL);
-    $stmt->bind_param("ii", $userID, $userID); // Bind the user ID for both parts of the query
+    $stmt->bind_param("i", $userID); // Bind the user ID for both parts of the query
     $stmt->execute();
     $countResult = $stmt->get_result();
     $bookCount = 0;
@@ -84,7 +80,7 @@
         $countRow = $countResult->fetch_assoc();
         $bookCount = $countRow['bookCount']; // Get the count of borrowed books
     }
-
+    
     $stmt->close();
 
     // Close the connection
