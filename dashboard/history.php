@@ -11,17 +11,17 @@
 
     // Fetch the books the user borrowed that were approved - ordered by the newest first
     $historyQuery = $conn->prepare("
-        SELECT DISTINCT B.Title, BH.BorrowDate, BR.DueDate, BR.Status
+        SELECT B.Title, BH.BorrowDate, BR.DueDate, BH.Status
         FROM BorrowingHistory BH
         INNER JOIN Books B ON BH.BookID = B.BookID
         INNER JOIN Borrow BR ON BH.BookID = BR.BookID AND BH.UserID = BR.UserID
-        WHERE BH.UserID = ? AND BR.Status IN ('Active', 'Returned', 'Overdue')
+        WHERE BH.UserID = ? AND BH.Status = 'Active'  -- Filter for BorrowingHistory status
         ORDER BY BH.BorrowDate DESC;
     ");
 
     $historyQuery->bind_param("i", $userID);
     $historyQuery->execute();
-    $historyResult = $historyQuery->get_result();
+    $historyResult = $historyQuery->get_result();;
 ?>
 
 <!doctype HTML>
@@ -91,12 +91,14 @@
                                     $dueDate = new DateTime($history['DueDate']);
                                     $interval = $borrowDate->diff($dueDate);
                                     $daysBorrowed = $interval->days;
-
-                                    ?>
-                                    <div class="history">
-                                        <p>You borrowed '<?php echo $bookTitle; ?>' for <?php echo $daysBorrowed; ?> days.</p>
-                                    </div>
-                                    <?php
+                            
+                                    if ($history['Status'] === 'Active') { // Check if the status is 'Active'
+                                        ?>
+                                        <div class="history">
+                                            <p>You borrowed '<?php echo $bookTitle; ?>' for <?php echo $daysBorrowed; ?> days. Due date: <?php echo $dueDate->format('Y-m-d'); ?></p>
+                                        </div>
+                                        <?php
+                                    }
                                 }
                             } else {
                                 echo "<p style='font-size: 1.2rem; display: flex; align-items: center; justify-content: center; height: 68vh;'>No borrowing history yet.</p>";
@@ -104,7 +106,7 @@
                         ?>
                     </div>
                     <div class="clearBtn">
-                        <button id="clearHistoryBtn" type="submit" style="padding-left: 25px; padding-right: 25px; margin-bottom: 0;">Clear</button>
+                        <button id="clearHistoryBtn" type="button" style="padding-left: 25px; padding-right: 25px; margin-bottom: 0;">Clear</button>
                     </div>
                 </div>
                 <footer>
@@ -118,6 +120,32 @@
             </div>            
         </div>
         <script>
+            document.getElementById("clearHistoryBtn").addEventListener("click", function() {
+                if (confirm("Are you sure you want to clear your borrowing history?")) {
+                    const userID = <?php echo json_encode($userID); ?>; // Pass the userID from PHP to JavaScript
+
+                    // Create an AJAX request
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "clear_history.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                    // Send the request with userID
+                    xhr.send("userID=" + userID);
+
+                    // Handle the response
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 200) {
+                                // Update the UI to reflect that history has been cleared
+                                alert("Your borrowing history has been cleared.");
+                                location.reload(); // Reload the page to reflect changes
+                            } else {
+                                alert("There was an error clearing your history. Please try again.");
+                            }
+                        }
+                    };
+                }
+            });
         </script>
     </body>
 </html>

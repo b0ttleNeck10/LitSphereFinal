@@ -9,7 +9,7 @@
         $author = $_POST['bAuthor'];
         $genre = $_POST['genre'];
         $description = $_POST['bDesc'];
-        
+
         // Handle the image upload
         if (isset($_FILES['myImg']) && $_FILES['myImg']['error'] == 0) {
             $fileTmpPath = $_FILES['myImg']['tmp_name'];

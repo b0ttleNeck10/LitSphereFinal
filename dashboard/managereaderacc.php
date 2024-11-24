@@ -33,13 +33,6 @@
 
         // Fetch borrowing history for this user
         $borrowHistorySQL = "
-            SELECT bh.BookID, bo.Title, bh.BorrowDate, bh.ReturnDate, DATEDIFF(COALESCE(bh.ReturnDate, CURDATE()), bh.BorrowDate) AS BorrowDuration
-            FROM BorrowingHistory bh
-            LEFT JOIN Books bo ON bh.BookID = bo.BookID
-            WHERE bh.UserID = ?
-
-            UNION
-
             SELECT br.BookID, bo.Title, br.BorrowDate AS BorrowDate, br.ReturnDate, DATEDIFF(COALESCE(br.ReturnDate, br.DueDate), br.BorrowDate) AS BorrowDuration
             FROM Borrow br
             LEFT JOIN Books bo ON br.BookID = bo.BookID
@@ -48,7 +41,7 @@
         ";
 
         $stmt = $conn->prepare($borrowHistorySQL);
-        $stmt->bind_param("ii", $userID, $userID); // Bind the user ID for both parts of the query
+        $stmt->bind_param("i", $userID); // Bind the user ID for both parts of the query
         $stmt->execute();
         $borrowResult = $stmt->get_result();
         
@@ -172,10 +165,10 @@
                     </div>
                     <div class="hist">
                         <?php if (empty($borrowHistory)): ?>
-                            <p>This user hasn't added any book in his library yet.</p>
+                            <p>This user hasn't added any book in their library yet.</p>
                         <?php else: ?>
                             <?php foreach ($borrowHistory as $history): ?>
-                                <h6><?php echo $user['FirstName'] . ' ' . $user['LastName']; ?> added the book ‘<?php echo $history['Title']; ?>’ in his library for <?php echo $history['BorrowDuration']; ?> days.</h6>
+                                <h6><?php echo $user['FirstName'] . ' ' . $user['LastName']; ?> added the book ‘<?php echo htmlspecialchars($history['Title']); ?>’ for <?php echo $history['BorrowDuration']; ?> days.</h6>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </div>

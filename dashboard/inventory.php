@@ -293,6 +293,39 @@
                 xhr.send();
             }
 
+            function addBook() {
+                // Prevent the form from submitting normally
+                event.preventDefault();
+
+                // Prepare the form data using FormData
+                var formData = new FormData(document.getElementById('addBookForm'));
+
+                // Create the AJAX request
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'add_book.php', true);
+
+                // Set up the response handler
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+
+                        // Check if the response is successful
+                        if (response.status === 'success') {
+                            alert(response.message);  // Show success message
+                            closePopup();  // Close the popup
+                            location.reload();  // Reload the page to show the newly added book
+                        } else {
+                            alert('Error: ' + response.message);  // Show error message
+                        }
+                    } else {
+                        alert('Request failed. Please try again.');
+                    }
+                };
+
+                // Send the form data via AJAX
+                xhr.send(formData);
+            }
+
             function editBook(bookID) {
                 console.log("Book ID: " + bookID);  // Log the book ID for debugging
 
@@ -388,39 +421,6 @@
                     document.querySelector('.image-placeholder').style.display = 'none';
                 }
             });
-
-            function addBook() {
-                // Prevent the form from submitting normally
-                event.preventDefault();
-
-                // Prepare the form data using FormData
-                var formData = new FormData(document.getElementById('addBookForm'));
-
-                // Create the AJAX request
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', 'add_book.php', true);
-
-                // Set up the response handler
-                xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
-
-                        // Check if the response is successful
-                        if (response.status === 'success') {
-                            alert(response.message);  // Show success message
-                            closePopup();  // Close the popup
-                            location.reload();  // Reload the page to show the newly added book
-                        } else {
-                            alert('Error: ' + response.message);  // Show error message
-                        }
-                    } else {
-                        alert('Request failed. Please try again.');
-                    }
-                };
-
-                // Send the form data via AJAX
-                xhr.send(formData);
-            }
 
             /// Get all the edit and delete icons
             const editIcons = document.querySelectorAll('.edit-icon');
