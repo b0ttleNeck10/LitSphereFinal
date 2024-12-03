@@ -21,7 +21,8 @@
 
     $historyQuery->bind_param("i", $userID);
     $historyQuery->execute();
-    $historyResult = $historyQuery->get_result();;
+    $historyResult = $historyQuery->get_result();
+    $counter = $historyResult->num_rows;
 ?>
 
 <!doctype HTML>
@@ -121,30 +122,40 @@
         </div>
         <script>
             document.getElementById("clearHistoryBtn").addEventListener("click", function() {
-                if (confirm("Are you sure you want to clear your borrowing history?")) {
-                    const userID = <?php echo json_encode($userID); ?>; // Pass the userID from PHP to JavaScript
+                <?php
+                    if($counter != 0) {
+                ?>
+                    if (confirm("Are you sure you want to clear your borrowing history?")) {
+                        const userID = <?php echo json_encode($userID); ?>; // Pass the userID from PHP to JavaScript
 
-                    // Create an AJAX request
-                    const xhr = new XMLHttpRequest();
-                    xhr.open("POST", "clear_history.php", true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        // Create an AJAX request
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("POST", "clear_history.php", true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-                    // Send the request with userID
-                    xhr.send("userID=" + userID);
+                        // Send the request with userID
+                        xhr.send("userID=" + userID);
 
-                    // Handle the response
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                            if (xhr.status === 200) {
-                                // Update the UI to reflect that history has been cleared
-                                alert("Your borrowing history has been cleared.");
-                                location.reload(); // Reload the page to reflect changes
-                            } else {
-                                alert("There was an error clearing your history. Please try again.");
+                        // Handle the response
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status === 200) {
+                                    // Update the UI to reflect that history has been cleared
+                                    alert("Your borrowing history has been cleared.");
+                                    location.reload(); // Reload the page to reflect changes
+                                } else {
+                                    alert("There was an error clearing your history. Please try again.");
+                                }
                             }
-                        }
-                    };
-                }
+                        };
+                    }
+                <?php       
+                    } else {
+                ?>
+                    alert("You don't have any borrowing history yet");
+                <?php        
+                    }
+                ?>
             });
         </script>
     </body>
