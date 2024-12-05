@@ -85,9 +85,9 @@
             <hr>
             <p>Copyrights &#169; 2024 Litsphere. All Rights Reserved.</p>
             <div class="iContainer">
-                <a href="#"><img src="../footer_icon/Facebook Logo.png" alt="Facebook Logo"></a>
-                <a href="#"><img src="../footer_icon/Twitter Logo.png" alt="Twitter Logo"></a>
-                <a href="#"><img src="../footer_icon/Instagram Logo.png" alt="Instagram Logo"></a>
+                <a href="#"><img src="footer_icon/Facebook Logo.png" alt="Facebook Logo"></a>
+                <a href="#"><img src="footer_icon/Twitter Logo.png" alt="Twitter Logo"></a>
+                <a href="#"><img src="footer_icon/Instagram Logo.png" alt="Instagram Logo"></a>
             </div>        
         </footer>
         <script>
